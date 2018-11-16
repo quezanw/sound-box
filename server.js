@@ -7,7 +7,7 @@ const express = require('express'),
 
 app.use(bodyParser.json())
     .use(bodyParser.urlencoded({extended: true}))
-    .use(express.static(path.join(__dirname, './static')))
+    // .use(express.static(path.join(__dirname, './static')))
     .use(express.static(path.join(__dirname, './public/dist/public')))
     .use(cors())
     .use(cookieParser());
