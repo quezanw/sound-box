@@ -1,4 +1,4 @@
-const controller = require('../controller/models');
+const controller = require('../controller/users');
 
 module.exports = app => {
     app.get('/login', controller.login);
