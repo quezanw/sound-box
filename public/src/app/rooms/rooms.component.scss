@@ -3,60 +3,79 @@ div.container-fluid {
     min-height: 100vh;
 }
 
-h1 { 
-    padding: 1em; 
-}
+h1 {  padding: 1em; }
 
-div.main-content {
-    // width: 200%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-
-}
+div.left-pane { overflow-y: scroll; }
 
 div.rooms-view {
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
     box-shadow: 10px 10px 10px  rgb(29, 25, 42);
-    display: inline-block;
     border-top: 4px solid rgb(29, 25, 42);;
     border-left: 4px solid rgb(29, 25, 42);
     border-radius: 10px 1px 1px 1px;
 }
 
-div.join-room {
-    box-shadow: 10px 10px 10px white;
-    display: inline-block;
-    border-top: 4px solid rgb(255, 255, 255);
-    border-left: 4px solid rgb(255, 255, 255);
-    border-radius: 10px 1px 1px 1px;
-}
-
-// div.hidden { display: none; }
-
 
 // ------- MEDIA QUERIES -------
-@mixin box-size-view($box-height, $box-width) {
-    div.rooms-view, div.join-room {
+@mixin box-size-view($box-width, $box-height) {
+    div.rooms-view {
         height: $box-height;
         width: $box-width;
-
     }
+}
+
+@mixin pane-size($pane-left-width, $pane-right-width, $pane-height) {
+    div.left-pane { width: $pane-left-width; }
+    div.right-pane { width: $pane-right-width; }
+    div.pane { height: $pane-height; }
 }
 @media only screen and (max-width: 480px){
     h1.header-style { font-size: 28pt; }
+    @include box-size-view(100%, 100%);
+    div.rooms-view {
+        border: 4px solid rgb(29, 25, 42);
+        margin: 0;
+        border: 0;
+        box-shadow: 0;
+        border-radius: 0;
+    }
+    div.left-pane { border-top: 1px solid black;}
+    div.right-pane { 
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+    @include pane-size(100%, 100%, 300px);
 
-    @include box-size-view(375px, 250px);
 }
 
 @media only screen and (min-width: 481px){
     h1.header-style { font-size: 32pt; }
-
-    @include box-size-view(400px, 350px);
-
+    @include box-size-view(500px, 500px);
+    @include pane-size(55%, 45%, 100%);
 }
 
 @media only screen and (min-width: 1024px){
     h1.header-style { font-size: 40pt; }
+    @include box-size-view(1000px, 600px);
+    @include pane-size(60%, 40%, 100%);
+}
 
-    @include box-size-view(500px, 400px);
+// ---- END MEDIA QUERIES ----
+
+
+// left pane scroll bar
+.left-pane::-webkit-scrollbar {
+    width: 10px;
+}
+
+.left-pane::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(110, 110, 110, 0.3);
+    border-radius: 10px;
+}
+
+.left-pane::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }

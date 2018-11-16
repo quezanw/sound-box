@@ -17,7 +17,8 @@ import { RoomsComponent } from './rooms/rooms.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]
