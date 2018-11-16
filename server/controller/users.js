@@ -29,7 +29,8 @@ module.exports = {
             scope: scope,
             redirect_uri: redirect_uri,
             state: state
-          }));
+          })
+        );
     },
     callback: (req, res) => {
         var code = req.query.code || null;
@@ -59,12 +60,12 @@ module.exports = {
           request.post(authOptions, function(error, response, body) {
             if (!error && response.statusCode === 200) {
       
-              var access_token = body.access_token,
-                  refresh_token = body.refresh_token;
+              req.session.access_token = body.access_token
+              req.session.refresh_token = body.refresh_token;
       
               var options = {
                 url: 'https://api.spotify.com/v1/me',
-                headers: { 'Authorization': 'Bearer ' + access_token },
+                headers: { 'Authorization': 'Bearer ' + req.session.access_token },
                 json: true
               };
       
@@ -104,6 +105,25 @@ module.exports = {
             }
           });
         }
+    },
+    get_song: (req, res) => {
+      var options = {
+        url: 'http://api.spotify.com/v1/search?' + 
+          querystring.stringify({
+            q: req.params.name,
+            type: 'track'
+          }),
+        headers: { 'Authorization': 'Bearer ' + req.session.access_token },
+        json: true
+      };
+      request.get(options, (error, body) => {
+        if (!error) {
+          res.json({body});
+        } else {
+          res.json({error});
+        }
+      });
+        
     },
     angular: (req, res) => {
         res.sendFile(path.resolve('./public/dist/public/index.html'));
