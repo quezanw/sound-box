@@ -3,27 +3,60 @@ div.container-fluid {
     min-height: 100vh;
 }
 
-h1 { padding: .5em; }
+h1 { 
+    padding: 1em; 
+}
+
+div.main-content {
+    // width: 200%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+
+div.rooms-view {
+    box-shadow: 10px 10px 10px  rgb(29, 25, 42);
+    display: inline-block;
+    border-top: 4px solid rgb(29, 25, 42);;
+    border-left: 4px solid rgb(29, 25, 42);
+    border-radius: 10px 1px 1px 1px;
+}
+
+div.join-room {
+    box-shadow: 10px 10px 10px white;
+    display: inline-block;
+    border-top: 4px solid rgb(255, 255, 255);
+    border-left: 4px solid rgb(255, 255, 255);
+    border-radius: 10px 1px 1px 1px;
+}
+
+// div.hidden { display: none; }
 
 
 // ------- MEDIA QUERIES -------
+@mixin box-size-view($box-height, $box-width) {
+    div.rooms-view, div.join-room {
+        height: $box-height;
+        width: $box-width;
+
+    }
+}
 @media only screen and (max-width: 480px){
     h1.header-style { font-size: 28pt; }
 
-    p.mission-statement { font-size: 14pt; }
-
-    .login-btn { width: 200px; }
+    @include box-size-view(375px, 250px);
 }
 
 @media only screen and (min-width: 481px){
     h1.header-style { font-size: 32pt; }
 
-    p.mission-statement { font-size: 18pt; }
+    @include box-size-view(400px, 350px);
 
 }
 
 @media only screen and (min-width: 1024px){
     h1.header-style { font-size: 40pt; }
 
-    p.mission-statement { font-size: 20pt; }
+    @include box-size-view(500px, 400px);
 }
