@@ -1,0 +1,29 @@
+div.container-fluid {
+    background-color: #2D283E;
+    min-height: 100vh;
+}
+
+h1 { padding: .5em; }
+
+
+// ------- MEDIA QUERIES -------
+@media only screen and (max-width: 480px){
+    h1.header-style { font-size: 28pt; }
+
+    p.mission-statement { font-size: 14pt; }
+
+    .login-btn { width: 200px; }
+}
+
+@media only screen and (min-width: 481px){
+    h1.header-style { font-size: 32pt; }
+
+    p.mission-statement { font-size: 18pt; }
+
+}
+
+@media only screen and (min-width: 1024px){
+    h1.header-style { font-size: 40pt; }
+
+    p.mission-statement { font-size: 20pt; }
+}
