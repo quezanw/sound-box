@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 // import anime from 'animejs';
 
-
-
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -16,4 +14,3 @@ export class RoomsComponent implements OnInit {
   }
 
 }
-
