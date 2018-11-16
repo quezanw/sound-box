@@ -1,4 +1,4 @@
-const Model = require('../models/model'),
+const User = require('../models/user'),
     path = require('path');
     request = require('request'),
     querystring = require('querystring'),
@@ -71,14 +71,31 @@ module.exports = {
               // use the access token to access the Spotify Web API
               request.get(options, function(error, response, body) {
                 console.log(body);
+                // enter user into database if they don't already exist
+                User.find({spotify_id: body.id})
+                  .then(data => {
+                    console.log(data)
+                    if (data.length == 0) {
+                      let user = new User({
+                        name: body.display_name,
+                        spotify_id: body.id
+                      });
+                      user.save()
+                        .then(user => console.log(user))
+                        .catch(err => console.log(err));
+                    }
+                    // store some user info in session to access later
+                  })
+                  .catch(err => console.log(err));
               });
       
+              res.redirect('/rooms')
               // we can also pass the token to the browser to make requests from there
-              res.redirect('/#' +
-                querystring.stringify({
-                  access_token: access_token,
-                  refresh_token: refresh_token
-                }));
+              // res.redirect('/#' +
+              //   querystring.stringify({
+              //     access_token: access_token,
+              //     refresh_token: refresh_token
+              //   }));
             } else {
               res.redirect('/#' +
                 querystring.stringify({
