@@ -1,24 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Francois+One|Oxygen|Ubuntu');
 
 // resets 
-body *, body {
-    margin: 0;
-    padding: 0;
+body *,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 .header-style {
-    color: white;
-    font-weight: bold;
-    background-color: black;
-    text-align: center;
+  color: white;
+  font-weight: bold;
+  background-color: black;
+  opacity: .85;
+  text-align: center;
 }
 
 .btn-oval {
-    padding: 1em;
-    border-radius: 1.5em;
-    border: 1px solid black;
-    background-color: #1DB954;
-    color: white;
-    font-weight: bold;
+  padding: 1em;
+  border-radius: 1.5em;
+  background-color: #1DB954;
+  color: white;
+  font-weight: bold;
+  border: none;
 }
 
+.custom-header-font {
+  font-family: 'Oxygen', sans-serif;
+//   font-family: 'Ubuntu', sans-serif;
+//   font-family: 'Francois One', sans-serif;
+}
