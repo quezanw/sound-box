@@ -1,0 +1,37 @@
+h1.header-style {
+    padding: .5em;
+}
+
+p.mission-statement {
+    text-align: center;
+    width: 50%;
+    margin: 2% auto;
+}
+
+.login-btn {
+    width: 300px;
+    font-size: 11pt;
+    margin: 5% auto;
+    display: block;
+}
+
+
+// ------- MEDIA QUERIES -------
+@media only screen and (max-width: 480px){
+    h1.header-style { font-size: 30pt; }
+
+    p.mission-statement { font-size: 14pt; }
+}
+
+@media only screen and (min-width: 481px){
+    h1.header-style { font-size: 38pt; }
+
+    p.mission-statement { font-size: 18pt; }
+
+}
+
+@media only screen and (min-width: 1024px){
+    h1.header-style { font-size: 46pt; }
+
+    p.mission-statement { font-size: 20pt; }
+}
