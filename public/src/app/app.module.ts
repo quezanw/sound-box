@@ -22,6 +22,7 @@ import { RoomComponent } from './room/room.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule
+
   ],
   providers: [HttpService],
   bootstrap: [AppComponent]

@@ -1,8 +1,11 @@
 <div class="container">
   <h1>This is where the Queue will be</h1>
   <form class="search-form" (submit)="findSong()">
-    <label for="name">Song Name:</label>
-    <input type="text" name="name" [value]="searchSong">
+    <label for="searchSong">Song Name:</label>
+    <input type="text" name="searchSong" [(ngModel)]="searchSong">
     <button type="submit">Search</button>
+    <div class="song-results">
+      <p *ngFor="let song of searchResults">{{ song.name }}</p>
+    </div>
   </form>
 </div>

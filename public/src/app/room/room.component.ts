@@ -9,16 +9,24 @@ import { HttpService } from '../http.service';
 export class RoomComponent implements OnInit {
   queue: any[];
   searchSong: string;
+  searchResults: any[];
 
   constructor(private _httpService: HttpService) { }
 
   ngOnInit() {
     this.queue = [];
     this.searchSong = '';
+    this.searchResults = [];
   }
 
   findSong(): void {
-    console.log(this.searchSong)
+    let observable = this._httpService.getSong(this.searchSong);
+    observable.subscribe(data => {
+      console.log(data)
+      console.log("rulesss");
+      this.searchResults = data['body']['body']['tracks']['items'];
+      this.searchSong = '';
+    });
   }
 
 }

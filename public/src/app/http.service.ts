@@ -9,6 +9,10 @@ export class HttpService {
   constructor(private _http: HttpClient) { }
 
   login() {
-    return this._http.get('/login');
+    return this._http.get('/login', {withCredentials: true});
+  }
+
+  getSong(name) {
+    return this._http.get('/get_song/' + name, {withCredentials: true});
   }
 }
