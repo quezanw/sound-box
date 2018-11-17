@@ -1,4 +1,52 @@
-<div class="container">
+<div class="container-fluid">
+  <div class="nav">
+    <h1 class="">SOUND-BOX</h1>
+    <p class="header-song-info">song name - artist</p>
+    <form class="search-form" action="">
+        <input type="text">
+    </form>
+  </div>
+  <div class="main-content">
+      <div id="song-info" class="current-song-info">
+          <div class="img-wrapper">
+              <img class="artist-img" src="https://t2.genius.com/unsafe/300x300/https%3A%2F%2Fimages.genius.com%2Fc689ee5d77d22c5f68da1cd4d2ae4558.1000x1000x1.jpg" alt="">
+          </div>
+          <div class="artist-info">
+              <h3 class="song-album-name">song name - album</h3>
+              <h5 class="artist-name">artist name</h5>
+          </div>
+      </div>
+      <div class="song-queue">
+          <div class="queue-list">
+              <div class="row">
+                <p class="row-song-name-artist">song name - artist</p>
+                <p class="upvotes">0</p>
+                <button>upvote</button>
+              </div>
+        
+          </div>
+      </div>
+  </div>
+  <div class="song-progress-bar"></div>
+</div>
+
+
+
+
+
+
+<!-- <div class="user-profile">
+        <img src="">
+    </div> -->
+
+
+
+
+
+
+
+
+<!-- <div class="container">
   <h1>This is where the Queue will be</h1>
   <form class="search-form" (submit)="findSong()">
     <label for="searchSong">Song Name:</label>
@@ -8,4 +56,4 @@
       <p *ngFor="let song of searchResults">{{ song.name }}</p>
     </div>
   </form>
-</div>
+</div> -->
