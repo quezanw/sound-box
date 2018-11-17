@@ -22,13 +22,17 @@ app.use(bodyParser.json())
 require('./server/config/routes.js')(app);
 
 const server = app.listen(8888, () => { console.log('listening on port 8888'); });
-const socket = require('socket.io')(server);
+const io = require('socket.io').listen(server);
 
-io.on('connection', function (socket) { //2
-  
-    socket.emit('greeting', { msg: 'Greetings, from server Node, brought to you by Sockets! -Server' }); //3
-    socket.on('thankyou', function (data) { //7
-      console.log(data.msg); //8 (note: this log will be on your server's terminal)
+io.on('connection', socket => { 
+    console.log('user connected');
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
     });
-      
-  });
+
+    socket.on('message', message => {
+        console.log("Message received: " + message);
+        io.emit('message', {type: 'new-message', text: message});
+    });
+});
