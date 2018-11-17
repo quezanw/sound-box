@@ -1,9 +1,10 @@
 <div class="container-fluid">
-    <h1 class="header-style custom-header-font">Join a Room</h1>
+    <h1 class="header-style custom-header-font">SOUND-BOX ROOMS</h1>
     <div class="rooms-view">
         <div class="left-pane pane">
             <div class="rooms-pane-header">
                 <input class="room-search-input" type="text" placeholder="search">
+                <button [routerLink]="['']" class="btn-oval">create room</button>
             </div>
             <div class="rooms-view-pane">
                 <div class="row">
@@ -21,5 +22,12 @@
             </form>
         </div>
     </div>
-    
+    <div class="create-room">
+        <form  class="form form-horizontal" action="">
+            <input class="form-control" type="text" placeholder="room name">
+            <input class="form-control" type="text" placeholder="room password">
+            <input class="form-control" type="text" placeholder="confirm password">
+            <button class="btn btn-success form-control">create</button>
+        </form>
+    </div>
 </div>

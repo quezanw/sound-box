@@ -3,6 +3,10 @@ div.container-fluid {
     min-height: 100vh;
 }
 
+p, h4 {
+    color: black;
+}
+
 h1 {  padding: 1em; }
 
 // .left-pane {
@@ -10,9 +14,13 @@ h1 {  padding: 1em; }
 // }
 
 div.rooms-view {
-    margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+    // display: none;
+}
+
+div.rooms-view, div.create-room {
+    margin: 0 auto;
     box-shadow: 10px 10px 10px  rgb(29, 25, 42);
     border-top: 4px solid rgb(29, 25, 42);;
     border-left: 4px solid rgb(29, 25, 42);
@@ -22,9 +30,15 @@ div.rooms-view {
 div.rooms-pane-header {
     padding: 1em;
     input.room-search-input {
-        width: 95%;
+        width: 70%;
         padding: .5em;
         border-radius: 1.5em;
+    }
+    button {
+        margin-left: 1em;
+        padding: .75em;
+        font-size: 10pt;
+        text-decoration: none;
     }
 }
 
@@ -45,12 +59,22 @@ div.rooms-view-pane {
     }
 }
 
+form.form {
+    padding: 2em;
+    width: 50%;
+    margin: 5em auto;
+    outline: 1px solid black;
+    input {
+        margin-bottom: 1em;
+    }
+}
+
 
 
 
 // ------- MEDIA QUERIES -------
 @mixin box-size-view($box-width, $box-height) {
-    div.rooms-view {
+    div.rooms-view, div.create-room {
         height: $box-height;
         width: $box-width;
     }

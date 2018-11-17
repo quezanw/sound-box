@@ -1,5 +1,6 @@
 h1.header-style {
     padding: .5em;
+    background-color: black;
 }
 
 p.mission-statement {
@@ -9,7 +10,10 @@ p.mission-statement {
 }
 
 .login-btn {
+    text-decoration: none;
     width: 300px;
+    text-align: center;
+    margin: 0 auto;
     font-size: 12pt;
     margin: 5% auto;
     display: block;
