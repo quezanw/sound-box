@@ -10,6 +10,7 @@ export class RoomComponent implements OnInit {
   queue: any[];
   searchSong: string;
   searchResults: any[];
+  refresh_token: string;
 
   constructor(private _httpService: HttpService) { }
 
@@ -17,13 +18,14 @@ export class RoomComponent implements OnInit {
     this.queue = [];
     this.searchSong = '';
     this.searchResults = [];
+    this.refresh_token = this._httpService.getRefreshToken();
+    console.log(this.refresh_token)
   }
 
   findSong(): void {
-    let observable = this._httpService.getSong(this.searchSong);
+    let observable = this._httpService.getSong(this.searchSong, this.refresh_token);
     observable.subscribe(data => {
       console.log(data)
-      console.log("rulesss");
       this.searchResults = data['body']['body']['tracks']['items'];
       this.searchSong = '';
     });
