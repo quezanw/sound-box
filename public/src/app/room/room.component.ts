@@ -11,7 +11,6 @@ export class RoomComponent implements OnInit {
   searchSong: string;
   searchResults: any[];
   refresh_token: string;
-
   constructor(private _httpService: HttpService) { }
 
   ngOnInit() {
@@ -22,10 +21,10 @@ export class RoomComponent implements OnInit {
     console.log(this.refresh_token)
   }
 
-  findSong(): void {
-    let observable = this._httpService.getSong(this.searchSong, this.refresh_token);
+  findSong(value: string): void {
+    const observable = this._httpService.getSong(this.searchSong, this.refresh_token);
     observable.subscribe(data => {
-      console.log(data)
+      console.log(data);
       this.searchResults = data['body']['body']['tracks']['items'];
       this.searchSong = '';
     });
