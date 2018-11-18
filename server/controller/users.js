@@ -17,33 +17,27 @@ var generateRandomString = function (length) {
 };
 
 // requesting access token from refresh token
-var getAccessToken = function () {
-	console.log("userID is " + userID)
-	User.find({spotify_id: userID})
-		.then(user => {
-			console.log("entered query")
-			var authOptions = {
-				url: 'https://accounts.spotify.com/api/token',
-				headers: {
-					'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-				},
-				form: {
-					grant_type: 'refresh_token',
-					refresh_token: user['refresh_token']
-				},
-				json: true
-			};
-		
-			request.post(authOptions, function (error, response, body) {
-				if (!error && response.statusCode === 200) {
-					console.log("access token: " + body.access_token)
-					return body.access_token;
-				}
-			});
-		})
-		.catch(err => console.log(err));
+// var getAccessToken = refresh_token => {
+// 	console.log("entered query")
+// 	var authOptions = {
+// 		url: 'https://accounts.spotify.com/api/token',
+// 		headers: {
+// 			'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+// 		},
+// 		form: {
+// 			grant_type: 'refresh_token',
+// 			refresh_token: refresh_token
+// 		},
+// 		json: true
+// 	};
 
-}
+// 	request.post(authOptions, function (error, response, body) {
+// 		if (!error && response.statusCode === 200) {
+// 			console.log("access token: " + body.access_token)
+// 			return body.access_token;
+// 		}
+// 	});
+// }
 
 module.exports = {
 	login: (req, res) => {
@@ -136,15 +130,29 @@ module.exports = {
 		}
 	},
 	get_song: async (req, res) => {
-		console.log("get_song userID: " + userID)
-		let access_token = await getAccessToken();
-			try {
+		// let access_token = await getAccessToken(req.params.refresh_token);
+		var authOptions = {
+			url: 'https://accounts.spotify.com/api/token',
+			headers: {
+				'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+			},
+			form: {
+				grant_type: 'refresh_token',
+				refresh_token: req.params.refresh_token
+			},
+			json: true
+		};
+	
+		request.post(authOptions, function (error, response, body) {
+			if (!error && response.statusCode === 200) {
+				let access_token = body.access_token;
 				console.log("return access token: " + access_token)
 				var options = {
 					url: 'http://api.spotify.com/v1/search?' +
 						querystring.stringify({
 							q: req.params.name,
-							type: 'track'
+							type: 'track',
+							limit: '5'
 						}),
 					headers: {
 						'Authorization': 'Bearer ' + access_token
@@ -158,9 +166,10 @@ module.exports = {
 						res.json({error});
 					}
 				});
-			} catch (e) {
-				console.log(e)
+			} else {
+				res.json({error});
 			}
+		});
 	},
 	angular: (req, res) => {
 		res.sendFile(path.resolve('./public/dist/public/index.html'));
