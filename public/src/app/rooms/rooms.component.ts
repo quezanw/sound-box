@@ -25,7 +25,7 @@ export class RoomsComponent implements OnInit {
       this.refresh_token = params['refresh_token'];
       this._httpService.setRefreshToken(this.refresh_token);
       console.log(this._httpService.refresh_token)
-      this._router.navigate(['/room'])
+      // this._router.navigate(['/room'])
     })
     this.chat.messages.subscribe(msg => {
       console.log("Response from chat service: " + msg);
