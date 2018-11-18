@@ -86,9 +86,6 @@ module.exports = {
 					let access_token = body.access_token
 					let refresh_token = body.refresh_token;
 
-					// don't know if this is necessary
-					res.cookie('refresh_token', refresh_token, {maxAge: 30 * 24 * 3600 * 1000});
-
 					var options = {
 						url: 'https://api.spotify.com/v1/me',
 						headers: {'Authorization': 'Bearer ' + access_token},

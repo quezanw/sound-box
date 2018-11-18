@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ChatService } from '../chat.service';
 
 // import anime from 'animejs';
 
@@ -15,7 +16,8 @@ export class RoomsComponent implements OnInit {
   constructor(
     private _httpService: HttpService,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private chat: ChatService
   ) { }
 
   ngOnInit() {
@@ -25,6 +27,14 @@ export class RoomsComponent implements OnInit {
       console.log(this._httpService.refresh_token)
       this._router.navigate(['/room'])
     })
+    this.chat.messages.subscribe(msg => {
+      console.log("Response from chat service: " + msg);
+    })
+  }
+
+  joinRoom(room: string) {
+    console.log("User is joining room...")
+    this.chat.joinRoom(room);
   }
 
 }
