@@ -4,9 +4,12 @@
     <p class="header-song-info">song name - artist</p>
     <form class="search-form" (submit)="findSong()">
       <input list="song-results" type="text" id="searchBar" name="searchSong" [(ngModel)]="searchSong">
-      <datalist id="song-results">
+      <!-- <datalist id="song-results">
           <option *ngFor="let song of searchResults">{{ song.name }}</option>
-      </datalist>
+      </datalist> -->
+      <ul>
+        <li (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }}</li>
+      </ul>
     </form>
   </div>
   <div class="main-content">
@@ -22,12 +25,11 @@
     </div>
     <div class="song-queue">
       <div class="queue-list">
-        <div class="row">
-          <p class="row-song-name-artist">song name - artist</p>
-          <p class="upvotes">0</p>
-          <button>upvote</button>
+        <div class="row" *ngFor="let song of queue">
+          <p class="row-song-name-artist">{{ song.info.name }} - {{ song.info.artists[0].name }}</p>
+          <p class="upvotes">{{ song.upvotes }}</p>
+          <button (click)="upvote(song)">upvote</button>
         </div>
-
       </div>
     </div>
   </div>

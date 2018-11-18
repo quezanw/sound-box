@@ -146,7 +146,6 @@ module.exports = {
 		request.post(authOptions, function (error, response, body) {
 			if (!error && response.statusCode === 200) {
 				let access_token = body.access_token;
-				console.log("return access token: " + access_token)
 				var options = {
 					url: 'http://api.spotify.com/v1/search?' +
 						querystring.stringify({
