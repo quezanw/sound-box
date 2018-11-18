@@ -18,7 +18,7 @@ export class RoomComponent implements OnInit {
     this.searchSong = '';
     this.searchResults = [];
     // this.refresh_token = this._httpService.getRefreshToken();
-    this.refresh_token = "AQBqtmf4QZ7R6TXf04FVHgpBl7hrV6qEB9rB0R2SMpUbAw9AGeGE9x75ZiNzBsNjmSysCSxSs5w3uYT2RN4hY2XOkqiXGV13-sAhV9tB1iKk3PYn4B7QKOQwcC7i0d7GIQrkkQ";
+    this.refresh_token = "AQAb-V7CTJiFtkEx3lqaIsv5_8y__H5r85qHCQRhz4O0i1VZJMMwMnL-htnOxbzYE_VxgKzh44tc964xEVBi7pUejLOqVeqvY-uiUQzLQ9XJn7G2goUeyLX22zJcFxNkVqo-fA";
     console.log(this.refresh_token)
   }
 
@@ -35,6 +35,8 @@ export class RoomComponent implements OnInit {
     console.log(song);
     this.searchResults = [];
     this.queue.push({info: song, upvotes: 0});
+    let observable = this._httpService.playSong({song_uri: song.uri, refresh_token: this.refresh_token});
+    observable.subscribe(data => console.log(data));
   }
 
   upvote(song: any): void {

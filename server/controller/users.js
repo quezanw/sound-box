@@ -44,7 +44,7 @@ module.exports = {
 		var state = generateRandomString(16);
 		res.cookie(stateKey, state);
 		// your application requests authorization
-		var scope = 'user-read-private user-read-email';
+		var scope = 'user-read-private user-read-email user-modify-playback-state';
 		res.redirect('https://accounts.spotify.com/authorize?' +
 			querystring.stringify({
 				response_type: 'code',
@@ -129,7 +129,7 @@ module.exports = {
 			});
 		}
 	},
-	get_song: async (req, res) => {
+	get_song: (req, res) => {
 		// let access_token = await getAccessToken(req.params.refresh_token);
 		var authOptions = {
 			url: 'https://accounts.spotify.com/api/token',
@@ -159,6 +159,46 @@ module.exports = {
 					json: true
 				};
 				request.get(options, (error, body) => {
+					if (!error) {
+						res.json({body});
+					} else {
+						res.json({error});
+					}
+				});
+			} else {
+				res.json({error});
+			}
+		});
+	},
+	play_song: (req, res) => {
+		var authOptions = {
+			url: 'https://accounts.spotify.com/api/token',
+			headers: {
+				'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+			},
+			form: {
+				grant_type: 'refresh_token',
+				refresh_token: req.body.refresh_token
+			},
+			json: true
+		};
+	
+		request.post(authOptions, function (error, response, body) {
+			console.log(req.body.song_uri)
+			if (!error && response.statusCode === 200) {
+				let access_token = body.access_token;
+				var options = {
+					url: 'https://api.spotify.com/v1/me/player/play',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': 'Bearer ' + access_token
+					},
+					form: JSON.stringify({
+						uris: [req.body.song_uri]
+					}),
+					json: true
+				};
+				request.put(options, (error, body) => {
 					if (!error) {
 						res.json({body});
 					} else {
