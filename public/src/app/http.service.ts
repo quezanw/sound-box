@@ -24,4 +24,8 @@ export class HttpService {
   getRefreshToken() {
     return this.refresh_token;
   }
+
+  playSong(song: any) {
+    return this._http.put('/play_song', song);
+  }
 }
