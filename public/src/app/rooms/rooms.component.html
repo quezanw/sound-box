@@ -7,7 +7,7 @@
                 <button (click)="showCreateRoom()" class="create-room-btn green-btn">+</button>
             </div>
             <div class="rooms-view-pane">
-                <div class="row">
+                <div (click)="getRoom(123)" class="row">
                     <p class="room-name">Terry's Room</p>
                     <p class="room-qty">2</p>
                 </div>
@@ -16,12 +16,12 @@
             </div>
         </div>
         <div class="right-pane pane">
-            <h4 class="room-name">Room Name</h4>
-            <p><span class="room-qty">10</span> members</p>
+            <h4 class="room-name">{{room_info.name}}</h4>
+            <p><span class="room-qty">{{room_info.members}}</span> members</p>
             <hr>
             <form class="room-password-form form form-horizontal">
                 <input class="form-control" type="text" placeholder="password">
-                <button class="btn btn-success form-control">Join Room</button>
+                <button [routerLink]="['/room']" class="btn green-btn">Join Room</button>
             </form>
         </div>
     </div>
@@ -30,7 +30,7 @@
             <input class="form-control" type="text" placeholder="room name">
             <input class="form-control" type="text" placeholder="room password">
             <input class="form-control" type="text" placeholder="confirm password">
-            <button (click)="show_form = !show_form" class="btn btn-success form-control">create</button>
+            <button (click)="show_form = !show_form" class="btn green-btn">create</button>
         </form>
     </div>
 </div>

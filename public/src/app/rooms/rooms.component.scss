@@ -47,17 +47,21 @@ div.rooms-pane-header {
 div.rooms-view-pane {
     overflow-y: scroll;
     div.row {
-        padding: 1em;
+        padding: .5em;
         width: 90%;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
         border-top: 1px solid rgb(29, 25, 42);
     }
+    div.row:hover {
+        outline: 1px solid gray;
+    }
     div.row > p {
         // font-size: 16pt;
         // font-weight: bold;
         display: inline-block;
+        margin: 0;
     }
 }
 
@@ -66,9 +70,6 @@ form.create-room-form {
     width: 80%;
     margin: 5em auto;
     outline: 1px solid black;
-    input {
-        margin-bottom: 1em;
-    }
 }
 
 div.right-pane {
@@ -79,9 +80,14 @@ div.right-pane {
         width: 100%;
         margin: 0;
     }
-    .form-control {
-        margin-bottom: 1em;
-    }
+}
+
+form > input {
+    margin-bottom: 1em;
+}
+
+form > button.green-btn {
+    width: 100%;
 }
 
 
