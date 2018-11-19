@@ -50,7 +50,7 @@ export class RoomComponent implements OnInit {
 
   upvote(song: any): void {
     song.upvotes++;
-    this.upvoted = false;
+    // this.upvoted = false;
     this.queue.sort(function(a, b) {
       return b.upvotes - a.upvotes;
     });

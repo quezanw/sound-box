@@ -12,26 +12,7 @@ app.use(bodyParser.json())
     .use(cors({origin: ["http://localhost:8888"], credentials: true}))
     .use(cookieParser());
 
-require('./server/config/routes.js')(app);
+require('./server/config/routes')(app);
 
 const server = app.listen(8888, () => { console.log('listening on port 8888'); });
-// const io = require('socket.io').listen(server);
-
-// io.on('connection', socket => { 
-//     console.log('user connected');
-
-//     socket.on('disconnect', () => {
-//         console.log('user disconnected')
-//     });
-
-//     socket.on('message', message => {
-//         console.log("Message received: " + message);
-//         io.emit('message', {type: 'new-message', text: message});
-//     });
-
-//     socket.on('join', room => {
-//         console.log("Joining room " + room);
-//         socket.join(room);
-//         socket.broadcast.to(room).emit('room message', 'Someone has entered the room!');
-//     });
-// });
+require('./sockets')(server);

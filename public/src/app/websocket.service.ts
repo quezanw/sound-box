@@ -19,16 +19,32 @@ export class WebsocketService {
     // We define our observable which will observe any incoming messages
     // from our socket.io server.
     let observable = new Observable(observer => {
-      this.socket.on('message', data => {
-        console.log("Received a message from websocket server");
-        observer.next(data);
-      });
-      this.socket.on('room message', data => {
-        console.log("Room has received message from server");
-        observer.next(data);
-      });
+      try {
+        this.socket.on('message', data => {
+          console.log("Received a message from websocket server");
+          observer.next(data);
+        });
+      } catch (e) {
+        console.log("Error receiving info from websocket server for message");
+        console.log(e);
+      }
+
+      try {
+        this.socket.on('room message', data => {
+          console.log("Room has received message from server");
+          observer.next(data);
+        });
+      } catch (e) {
+        console.log("Error receiving info from websocket server for room message");
+        console.log(e);
+      }
       return () => {
-        this.socket.disconnect();
+        try {
+          this.socket.disconnect();
+        } catch (e) {
+          console.log("error in disconnect in websocket server");
+          console.log(e);
+        }
       }
     })
 
@@ -37,8 +53,14 @@ export class WebsocketService {
     // socket server whenever the `next()` method is called.
     let observer = {
       next: (data: Object) => {
-        console.log("This is the observer's data: " + JSON.stringify(data))
-        this.socket.emit(data['emit'], JSON.stringify(data['message']));
+        console.log("This is the observer's data: " + JSON.stringify(data));
+        try {
+          console.log("trying to emit data")
+          this.socket.emit(data['emit'], JSON.stringify(data['message']));
+        } catch (e) {
+          console.log("Error in websocket service:", data['emit']);
+          console.log(e);
+        }
       },
     };
 
