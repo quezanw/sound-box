@@ -14,7 +14,8 @@ export class RoomComponent implements OnInit {
   currentSong: any;
   upvoted: boolean;
 
-  constructor(private _httpService: HttpService) { }
+  constructor(private _httpService: HttpService) {
+   }
 
   ngOnInit() {
     this.queue = [];
@@ -61,6 +62,18 @@ export class RoomComponent implements OnInit {
     let observable = this._httpService.playSong({song_uri: this.currentSong.info.uri, refresh_token: this.refresh_token});
     observable.subscribe(data => {
       setTimeout(() => this.playSong(), this.currentSong.info.duration_ms + 2000);
+    //   let el = document.getElementById('progress');
+    //   console.log(el);
+    //   var width = 1;
+    //   var id = setInterval(frame, 1000);
+    //   function frame() {
+    //     if (width >= 100) {
+    //       clearInterval(id);
+    //     } else {
+    //       width++;
+    //       el.setAttribute('style', 'width:' + width + '%;');
+    //     }
+    //   }
     });
   }
 
