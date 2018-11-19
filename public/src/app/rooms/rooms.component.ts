@@ -12,7 +12,7 @@ import { ChatService } from '../chat.service';
 })
 export class RoomsComponent implements OnInit {
   refresh_token: string;
-
+  show_form: boolean;
   constructor(
     private _httpService: HttpService,
     private _route: ActivatedRoute,
@@ -21,6 +21,7 @@ export class RoomsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.show_form = false;
     this._route.params.subscribe((params: Params) => {
       this.refresh_token = params['refresh_token'];
       this._httpService.setRefreshToken(this.refresh_token);
@@ -35,6 +36,10 @@ export class RoomsComponent implements OnInit {
   joinRoom(room: string) {
     console.log("User is joining room...")
     this.chat.joinRoom(room);
+  }
+
+  showCreateRoom() {
+    this.show_form = true;
   }
 
 }

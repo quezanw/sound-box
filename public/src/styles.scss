@@ -19,10 +19,15 @@ body {
 .btn-oval {
   padding: 1em;
   border-radius: 1.5em;
-  background-color: #1DB954;
-  color: white;
   font-weight: bold;
-  border: none;
+}
+
+.green-btn {
+    border: none;
+    text-decoration: none;
+    background-color:rgb(25, 197, 144);
+    color: white;
+    cursor: pointer;
 }
 
 .custom-header-font {
