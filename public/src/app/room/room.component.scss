@@ -19,17 +19,32 @@
     h5.artist-name { font-size: $artist-name-size }
 }
 
+@mixin room-color($main, $font-color, $middle-color, $middle-color2) {
+    div.container-fluid {
+        background-color: $main;
+    }
+    div.container-fluid * {
+        color: $font-color;
+    }
+    div.main-content {
+        background: linear-gradient($middle-color, $middle-color2)
+    }
+}
+
+@include room-color(#000520, white,  #1f204d, #030f26);
+
 div.container-fluid {
     margin: 0;
     padding: 0;
     * {
         // outline: 1px solid pink;
     }
+    min-height: 100vmin;
 }
 
 div.nav {
     margin: 0;
-    padding: 1em;
+    padding: 2em;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -40,13 +55,30 @@ div.nav {
         margin: 0;
     }
     form.search-form {
-        height: 35px;
+        // height: 35px;
         vertical-align: bottom;
         input {
             width: 100%;
-            height: 100%;
+            // height: 100%;
+            height: 35px;
+            border: 1px solid gray;
+            border-radius: .5em;
+            color: black;
         }
-
+    }
+    ul.song-search-results {
+        display: block;
+        margin-bottom: 0;
+        list-style-type: none;
+        // padding: .5em;
+        li { 
+            padding: .5em;
+            background-color: white;
+            color: black;
+        }
+        li:hover {
+            background-color: rgb(187, 187, 187);
+        }
     }
 
 }
@@ -75,6 +107,11 @@ div.main-content {
                 margin-top: .5em;
             }
         }
+        button.follow-btn {
+            padding: .25em;
+            border-radius: 1.5em;
+            width: 100px;
+        }
     }
 
     div.song-queue {
@@ -84,6 +121,7 @@ div.main-content {
             width: 100%;
             height: 100%;
             overflow-y: scroll;
+            pointer-events: none;
             div.row {
                 margin: 0;
                 padding: 1em;
@@ -91,16 +129,38 @@ div.main-content {
                 display: flex;
                 justify-content: space-between;
                 p, button { margin: 0; padding: 0;}
+                button.upvote-btn { pointer-events: visible; }
             }
         }
+        p.row-song-name-artist { 
+            width: 70%;
+            // overflow-x: scroll; 
+        }
+    }
+    div.queue-list::-webkit-scrollbar {
+        width: 5px;
+    }
+       
+    div.queue-list::-webkit-scrollbar-track {
+        background: #ddd;
+    }
+       
+    div.queue-list::-webkit-scrollbar-thumb {
+        background: #666; 
     }
 }
 
 
 div.song-progress-bar { 
     width: 100%; 
-    height: 10px;
-    border: 1px solid red;
+    // height: 10px;
+    background-color: #ddd;
+    div#progress {
+        width: 30%;
+        height: 10px;
+        background-color: red;
+        margin: 0;
+    }
 }
 
 

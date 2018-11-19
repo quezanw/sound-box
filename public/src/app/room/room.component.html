@@ -1,13 +1,14 @@
 <div class="container-fluid">
   <div class="nav">
     <h1 class="">SOUND-BOX</h1>
-    <p class="header-song-info">song name - artist</p>
+    <p *ngIf="currentSong" class="header-song-info">{{ currentSong.info.name }} - {{ currentSong.info.artists[0].name
+      }}</p>
     <form class="search-form" (submit)="findSong()">
-      <input list="song-results" type="text" id="searchBar" name="searchSong" [(ngModel)]="searchSong">
+      <input list="song-results" type="search" id="searchBar" name="searchSong" [(ngModel)]="searchSong">
       <!-- <datalist id="song-results">
-          <option *ngFor="let song of searchResults">{{ song.name }}</option>
+          <option (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }}</option>
       </datalist> -->
-      <ul>
+      <ul class="song-search-results">
         <li (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }}</li>
       </ul>
     </form>
@@ -15,25 +16,36 @@
   <div class="main-content">
     <div id="song-info" class="current-song-info">
       <div class="img-wrapper">
-        <img *ngIf="currentSong" class="artist-img" [src]="currentSong.info.album.images[0].url"
-          alt="">
+        <img *ngIf="currentSong" class="artist-img" [src]="currentSong.info.album.images[0].url" alt="">
       </div>
       <div class="artist-info">
         <h3 *ngIf="currentSong" class="song-album-name">{{ currentSong.info.name }} - {{ currentSong.info.album.name }}</h3>
         <h5 *ngIf="currentSong" class="artist-name">{{ currentSong.info.artists[0].name }}</h5>
+        <button *ngIf="currentSong" class="follow-btn btn green-btn">follow</button>
       </div>
     </div>
     <div class="song-queue">
       <div class="queue-list">
         <div class="row" *ngFor="let song of queue">
-          <p class="row-song-name-artist">{{ song.info.name }} - {{ song.info.artists[0].name }}</p>
-          <button *ngIf="upvoted" (click)="upvote(song)">upvote</button>
+          <p class="row-song-name-artist">
+            {{ song.info.name }} - {{ song.info.artists[0].name }}
+          </p>
+          <button class="btn upvote-btn" *ngIf="upvoted" (click)="upvote(song)">upvote</button>
           <p class="upvotes">{{ song.upvotes }}</p>
+        </div>
+        <div class="row">
+          <p class="row-song-name-artist">
+            song.info.name - song.info.artists[0].name
+          </p>
+          <button class="btn" *ngIf="upvoted" (click)="upvote(song)">upvote</button>
+          <p class="upvotes">14</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="song-progress-bar"></div>
+  <div class="song-progress-bar">
+      <div class="progress"></div>
+  </div>
 </div>
 
 
