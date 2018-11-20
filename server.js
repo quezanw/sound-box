@@ -16,3 +16,5 @@ require('./server/config/routes')(app);
 
 const server = app.listen(8888, '192.168.1.180',() => { console.log('listening on port 8888'); });
 require('./sockets')(server);
+
+//http://localhost:8888/callback
