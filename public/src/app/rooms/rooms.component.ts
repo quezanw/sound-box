@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ChatService } from '../chat.service';
 
 // import anime from 'animejs';
 
@@ -18,12 +17,15 @@ export class RoomsComponent implements OnInit {
   new_room: any;
   members: Number;
   errors: any;
+  socket: SocketIOClient.Socket;
+
   constructor(
     private _httpService: HttpService,
     private _route: ActivatedRoute,
-    private _router: Router,
-    private chat: ChatService
-  ) { }
+    private _router: Router
+  ) { 
+    this.socket = this._httpService.socket;
+  }
 
   ngOnInit() {
     this.room_info = { name: "Room Name", members: 0};
@@ -38,17 +40,16 @@ export class RoomsComponent implements OnInit {
       this._httpService.setRefreshToken(this.refresh_token);
       console.log(this._httpService.refresh_token);
       this.new_room['host_token'] = this.refresh_token;
-      // this._router.navigate(['/room'])
-    })
-    this.chat.messages.subscribe(msg => {
-      console.log("Response from chat service: " + msg);
     })
   }
 
   joinRoom(room: string) {
     console.log("User is joining room...")
-    this.chat.joinRoom(room);
+    this.socket.emit('join', room);
     this._router.navigate(['/room/' + room]);
+    this.socket.on('room message', data => {
+      console.log(data);
+    });
   }
 
   showCreateRoom() {

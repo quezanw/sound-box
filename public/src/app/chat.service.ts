@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 export class ChatService {
 
   messages: Subject<any>;
+  song: Subject<any>;
 
   // Our constructor calls our wsService connect method
   constructor(private wsService: WebsocketService) { 
@@ -18,6 +19,13 @@ export class ChatService {
         console.log("Chat service has received response")
         return response;
       }))
+    
+    this.song = <Subject<any>>wsService // messages is an observable
+    .connect()
+    .pipe(map((response: any): any => {
+      console.log("Chat service has received response")
+      return response;
+    }))
   }
 
   // Our simplified interface for sending
@@ -29,6 +37,6 @@ export class ChatService {
 
   addSong(song: any, room: string) {
     console.log("Song is being sent to the service");
-    this.messages.next({emit: 'add_song', message: {song: song, room: room}});
+    this.song.next({emit: 'add_song', message: {song: song, room: room}});
   }
 }

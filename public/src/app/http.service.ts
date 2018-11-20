@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import * as io from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
   refresh_token: any;
+  socket: SocketIOClient.Socket;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient) {
+    this.socket = io.connect('http://localhost:8888');
+  }
 
   login() {
     return this._http.get('/login');

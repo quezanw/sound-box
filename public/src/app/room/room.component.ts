@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ChatService } from '../chat.service';
-
 
 @Component({
   selector: 'app-room',
@@ -17,12 +15,13 @@ export class RoomComponent implements OnInit {
   currentSong: any;
   upvoted: boolean;
   roomID: string;
+  socket: SocketIOClient.Socket;
 
   constructor(
     private _httpService: HttpService,
-    private _route: ActivatedRoute,
-    private chat: ChatService
+    private _route: ActivatedRoute
     ) {
+      this.socket = this._httpService.socket;
    }
 
   ngOnInit() {
@@ -61,9 +60,9 @@ export class RoomComponent implements OnInit {
 
   addSong(song: any): void {
     console.log("Adding song to queue");
-    this.chat.addSong(song, this.roomID);
-    this.chat.messages.subscribe(data => {
-      console.log(data.name + " has been added to queue");
+    this.socket.emit('add_song', {song: song, room: this.roomID});
+    this.socket.on('song_queue', data => {
+      console.log(data.name, "has been added to the queue");
       this.searchResults = [];
       this.queue.push({info: data, upvotes: 0});
     });
