@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ChatService } from '../chat.service';
+
 
 @Component({
   selector: 'app-room',
@@ -13,8 +16,13 @@ export class RoomComponent implements OnInit {
   refresh_token: string;
   currentSong: any;
   upvoted: boolean;
+  roomID: string;
 
-  constructor(private _httpService: HttpService) {
+  constructor(
+    private _httpService: HttpService,
+    private _route: ActivatedRoute,
+    private chat: ChatService
+    ) {
    }
 
   ngOnInit() {
@@ -23,11 +31,14 @@ export class RoomComponent implements OnInit {
     this.searchResults = [];
     // this.refresh_token = this._httpService.getRefreshToken();
     this.refresh_token = 
-    'AQBqvh6IcxG30MwQJS17whnGw9K1tXCWu5tR3n-EOStj4eow_XG1M2ciabjAzdlRVoVgu_VtdnuxEiGt5Akw7jQuq8Q_KxfUaxAxRX-ycc5SjwrE4EWIl2dVbuDGWQ-hHlP1VQ';
-    // "AQAb-V7CTJiFtkEx3lqaIsv5_8y__H5r85qHCQRhz4O0i1VZJMMwMnL-htnOxbzYE_VxgKzh44tc964xEVBi7pUejLOqVeqvY-uiUQzLQ9XJn7G2goUeyLX22zJcFxNkVqo-fA";
+    // 'AQBqvh6IcxG30MwQJS17whnGw9K1tXCWu5tR3n-EOStj4eow_XG1M2ciabjAzdlRVoVgu_VtdnuxEiGt5Akw7jQuq8Q_KxfUaxAxRX-ycc5SjwrE4EWIl2dVbuDGWQ-hHlP1VQ';
+    "AQAb-V7CTJiFtkEx3lqaIsv5_8y__H5r85qHCQRhz4O0i1VZJMMwMnL-htnOxbzYE_VxgKzh44tc964xEVBi7pUejLOqVeqvY-uiUQzLQ9XJn7G2goUeyLX22zJcFxNkVqo-fA";
     console.log(this.refresh_token);
     this.currentSong = null;
     this.upvoted = true;
+    this._route.params.subscribe((params: Params) => {
+      this.roomID = params['room_id'];
+    });
   }
 
   findSong(): void {
@@ -39,13 +50,23 @@ export class RoomComponent implements OnInit {
     });
   }
 
+  // addSong(song: any): void {
+  //   console.log(song);
+  //   this.searchResults = [];
+  //   this.queue.push({info: song, upvotes: 0});
+  //   if (!this.currentSong) {
+  //     this.playSong();
+  //   } 
+  // }
+
   addSong(song: any): void {
-    console.log(song);
-    this.searchResults = [];
-    this.queue.push({info: song, upvotes: 0});
-    if (!this.currentSong) {
-      this.playSong();
-    } 
+    console.log("Adding song to queue");
+    this.chat.addSong(song, this.roomID);
+    this.chat.messages.subscribe(data => {
+      console.log(data.name + " has been added to queue");
+      this.searchResults = [];
+      this.queue.push({info: data, upvotes: 0});
+    });
   }
 
   upvote(song: any): void {

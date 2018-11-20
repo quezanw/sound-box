@@ -23,9 +23,4 @@ export class AppComponent {
       console.log("Response from chat service: " + msg);
     })
   }
-
-  sendMessage() {
-    console.log("User is sending message...")
-    this.chat.sendMessage("Test Message")
-  }
 }

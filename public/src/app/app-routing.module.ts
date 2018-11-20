@@ -7,7 +7,7 @@ import { RoomComponent } from './room/room.component';
 const routes: Routes = [
     {path: '', component: LoginComponent},
     {path: 'rooms/:refresh_token', component: RoomsComponent},
-    {path: 'room', component: RoomComponent}
+    {path: 'room/:room_id', component: RoomComponent}
 ];
 
 @NgModule({
