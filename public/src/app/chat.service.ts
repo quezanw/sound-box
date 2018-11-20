@@ -22,13 +22,13 @@ export class ChatService {
 
   // Our simplified interface for sending
   // messages back to our socket.io server
-  sendMessage(msg: any) {
-    console.log("Message is being sent to service...")
-    this.messages.next({emit: 'message', message: msg});
-  }
-
   joinRoom(room: any) {
     console.log("Message is being sent to the service...")
     this.messages.next({emit: 'join', message: room});
+  }
+
+  addSong(song: any, room: string) {
+    console.log("Song is being sent to the service");
+    this.messages.next({emit: 'add_song', message: {song: song, room: room}});
   }
 }

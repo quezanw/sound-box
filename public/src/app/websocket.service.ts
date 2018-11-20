@@ -20,16 +20,6 @@ export class WebsocketService {
     // from our socket.io server.
     let observable = new Observable(observer => {
       try {
-        this.socket.on('message', data => {
-          console.log("Received a message from websocket server");
-          observer.next(data);
-        });
-      } catch (e) {
-        console.log("Error receiving info from websocket server for message");
-        console.log(e);
-      }
-
-      try {
         this.socket.on('room message', data => {
           console.log("Room has received message from server");
           observer.next(data);
@@ -37,6 +27,15 @@ export class WebsocketService {
       } catch (e) {
         console.log("Error receiving info from websocket server for room message");
         console.log(e);
+      }
+      try {
+        this.socket.on('song_queue', data => {
+          console.log("Adding song from the server");
+          observer.next(data);
+        });
+      } catch (e) {
+        console.log("Error receiving info from websocket server for song to queue");
+        console.log(e); 
       }
       return () => {
         try {
@@ -53,10 +52,9 @@ export class WebsocketService {
     // socket server whenever the `next()` method is called.
     let observer = {
       next: (data: Object) => {
-        console.log("This is the observer's data: " + JSON.stringify(data));
+        console.log("trying to emit data")
         try {
-          console.log("trying to emit data")
-          this.socket.emit(data['emit'], JSON.stringify(data['message']));
+          this.socket.emit(data['emit'], data['message']);
         } catch (e) {
           console.log("Error in websocket service:", data['emit']);
           console.log(e);
