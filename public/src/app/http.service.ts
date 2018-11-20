@@ -28,4 +28,16 @@ export class HttpService {
   playSong(song: any) {
     return this._http.put('/play_song', song);
   }
+
+  createRoom(room: any) {
+      return this._http.post('/create_room', room);
+  }
+
+  getAllRooms() {
+      return this._http.get('/get_rooms');
+  }
+
+  getRoomById(id) {
+      return this._http.get('/get_room/' + id);
+  }
 }
