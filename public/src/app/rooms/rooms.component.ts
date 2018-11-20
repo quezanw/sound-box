@@ -48,7 +48,7 @@ export class RoomsComponent implements OnInit {
   joinRoom(room: string) {
     console.log("User is joining room...")
     this.chat.joinRoom(room);
-    this._router.navigate(['/room' + room]);
+    this._router.navigate(['/room/' + room]);
   }
 
   showCreateRoom() {
