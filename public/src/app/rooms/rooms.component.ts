@@ -81,8 +81,8 @@ export class RoomsComponent implements OnInit {
             this.new_room.password = '';
             this.show_form = false;
             this.getAllRooms();
-            this.errors = [];
         }
+        this.errors = [];
       });
   }
 
