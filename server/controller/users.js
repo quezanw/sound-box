@@ -1,4 +1,5 @@
-const User = require('../models/user'),
+const User = require('../models/user').user,
+    Room = require('../models/room');
 	path = require('path');
 	request = require('request'),
 	querystring = require('querystring'),
@@ -212,5 +213,25 @@ module.exports = {
 	},
 	angular: (req, res) => {
 		res.sendFile(path.resolve('./public/dist/public/index.html'));
-	}
+    },
+    createRoom: (req, res) => {
+        let room = new Room({
+            name: req.body.name,
+            password: req.body.password,
+            host_token: req.body.host_token
+        })
+        room.save()
+        .then(result => res.json(result))
+        .catch(err => res.json(err))
+    },
+    getRooms: (req, res) => {
+        Room.find({})
+            .then(rooms => res.json(rooms))
+            .catch(err => res.json(err))
+    },
+    getRoom: (req, res) => {
+        Room.findOne({_id: req.params.id})
+            .then(room => res.json(room))
+            .catch(err => res.json(err))
+    }
 }

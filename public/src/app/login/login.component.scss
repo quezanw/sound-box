@@ -1,12 +1,32 @@
+
+div.container-fluid {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background: url('../../assets/login-wall5.jpeg');
+    height: 100vmin;
+    background-color: #030f26;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    // filter: blur(2px);
+    // -webkit-filter: blur(2px);
+}
+
 h1.header-style {
     padding: .5em;
-    background-color: black;
+    // background-color: #030f26;
+    background: rgba(#030f26, 0.85);
 }
 
 p.mission-statement {
     text-align: center;
     width: 50%;
-    margin: 5% auto;
+    margin: 2% auto;
+    font-weight: 900;
+    color: white;
+    padding: 1em;
+    // background-color: #030f26;
 }
 
 .login-btn {
@@ -23,9 +43,10 @@ p.mission-statement {
  
 .login-btn:hover {
     background-color: rgb(25, 197, 144);
-    width: 305px;
+    width: 310px;
     color: white;
 }
+
 
  
 // ------- MEDIA QUERIES -------
@@ -33,7 +54,27 @@ p.mission-statement {
     h1.header-style { font-size: 30pt; }
 
     p.mission-statement { font-size: 14pt; }
-
+    div.equalizer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 25%;
+        background: rgba(#030f26, 0.70);
+        display: flex;
+        justify-content: space-evenly;
+        div.bar {
+            width: 45px;
+            margin: 0 .25em;
+            // transition: .5s;
+            // animation: equalize 1.5s 0s infinite;
+            // animation-timing-function: linear;
+            vertical-align: bottom;
+        }
+        div.bar {
+            height: 80%;
+            background-color: green;
+        }
+    }
     .login-btn { width: 200px; }
 }
 
