@@ -9,10 +9,10 @@ app.use(bodyParser.json())
     .use(bodyParser.urlencoded({extended: true}))
     // .use(express.static(path.join(__dirname, './static')))
     .use(express.static(path.join(__dirname, './public/dist/public')))
-    .use(cors({origin: ["http://localhost:8888"], credentials: true}))
+    .use(cors())
     .use(cookieParser());
 
 require('./server/config/routes')(app);
 
-const server = app.listen(8888, () => { console.log('listening on port 8888'); });
+const server = app.listen(8888, '192.168.1.170', () => { console.log('listening on port 8888'); });
 require('./sockets')(server);
