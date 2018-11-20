@@ -9,7 +9,7 @@ app.use(bodyParser.json())
     .use(bodyParser.urlencoded({extended: true}))
     // .use(express.static(path.join(__dirname, './static')))
     .use(express.static(path.join(__dirname, './public/dist/public')))
-    .use(cors({origin: ["http://localhost:8888"], credentials: true}))
+    .use(cors())
     .use(cookieParser());
 
 require('./server/config/routes')(app);
