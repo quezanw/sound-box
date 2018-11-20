@@ -5,4 +5,8 @@ let UserSchema = new mongoose.Schema({
     spotify_id: {type: String, required: true}
 }, {timestamps: true});
 
-module.exports = mongoose.model('User', UserSchema);
+
+module.exports = {
+    user: mongoose.model('User', UserSchema),
+    UserSchema: UserSchema
+}
