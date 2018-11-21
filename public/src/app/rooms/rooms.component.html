@@ -9,13 +9,13 @@
       <div class="rooms-view-pane">
         <div *ngFor="let room of rooms" (click)="getRoom(room.name)" class="row">
           <p class="room-name">{{ room.name }}</p>
-          <p class="room-qty">{{ room.members }}</p>
+          <p class="room-qty">{{ room.members.length }}</p>
         </div>
       </div>
     </div>
     <div class="right-pane pane">
       <h4 class="room-name">{{room_info.name}}</h4>
-      <p><span class="room-qty">{{room_info.members}}</span> members</p>
+      <p><span class="room-qty">{{room_info.members.length}}</span> members</p>
       <hr>
       <form class="room-password-form form form-horizontal">
         <!-- <input class="form-control" type="text" placeholder="password"> -->

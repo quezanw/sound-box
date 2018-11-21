@@ -5,11 +5,8 @@
       }}</p>
     <form class="search-form" (submit)="findSong()">
       <input list="song-results" type="search" id="searchBar" name="searchSong" [(ngModel)]="searchSong">
-      <!-- <datalist id="song-results">
-          <option (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }}</option>
-      </datalist> -->
       <ul class="song-search-results">
-        <li (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }}</li>
+        <li (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }} - {{ song.artists[0].name }}</li>
       </ul>
     </form>
   </div>
@@ -36,13 +33,6 @@
           </button>
           <p class="upvotes">{{ song.upvotes }}</p>
         </div>
-        <!-- <div class="row">
-          <p class="row-song-name-artist">
-            song.info.name - song.info.artists[0].name
-          </p>
-          <button class="btn" *ngIf="upvoted" (click)="upvote(song)">upvote</button>
-          <p class="upvotes">14</p>
-        </div> -->
       </div>
     </div>
   </div>
@@ -57,9 +47,9 @@
       <p class="user-name">Robot</p>
     </div>
     <!-- row for users bellow - above is the row for the robot. do not touch! -->
-    <div class="row">
-      <img class="user-img">
-      <p class="user-name">Quezan Wong</p>
+    <div class="row" *ngFor="let user of users">
+      <img class="user-img" src="{{ user.images[0].url }}">
+      <p class="user-name">{{ user.display_name }}</p>
     </div>
 
 
