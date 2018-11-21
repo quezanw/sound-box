@@ -25,13 +25,14 @@
       </div>
     </div>
     <div class="song-queue">
+      <h4>Song Queue</h4>
       <div class="queue-list">
         <div class="row" *ngFor="let song of queue">
           <p class="row-song-name-artist">
             {{ song.info.name }} - {{ song.info.artists[0].name }}
           </p>
           <button class="btn upvote-btn" *ngIf="upvoted" (click)="upvote(song, $event.currentTarget)">
-                <i class="far fa-thumbs-up"></i>
+            <i class="far fa-thumbs-up"></i>
           </button>
           <p class="upvotes">{{ song.upvotes }}</p>
         </div>
@@ -46,7 +47,22 @@
     </div>
   </div>
   <div class="song-progress-bar">
-      <div class="progress"></div>
+    <div class="progress"></div>
+  </div>
+  <div class="user-list">
+    <div class="row">
+      <div class="user-img">
+        <i class="user-img fas fa-robot"></i>
+      </div>
+      <p class="user-name">Robot</p>
+    </div>
+    <!-- row for users bellow - above is the row for the robot. do not touch! -->
+    <div class="row">
+      <img class="user-img">
+      <p class="user-name">Quezan Wong</p>
+    </div>
+
+
   </div>
 </div>
 
@@ -55,7 +71,8 @@
 
 
 
-<!-- <div class="user-profile">
+<!-- <div clas
+    ser-profile">
         <img src="">
     </div> -->
 
