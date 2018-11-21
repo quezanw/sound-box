@@ -17,7 +17,7 @@ require('./server/config/routes')(app);
 
 const server = app.listen(8888, '192.168.0.108',() => { console.log('listening on port 8888'); });
 
-const server = app.listen(8888, () => { console.log('listening on port 8888'); });
+// const server = app.listen(8888, () => { console.log('listening on port 8888'); });
 
 require('./sockets')(server);
 

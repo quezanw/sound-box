@@ -6,7 +6,7 @@ const path = require('path');
 
 	redirect_uri = 'http://192.168.0.108:8888/callback',
 
-	redirect_uri = 'http://localhost:8888/callback',
+	// redirect_uri = 'http://localhost:8888/callback',
 
 	stateKey = 'spotify_auth_state';
 

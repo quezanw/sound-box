@@ -13,7 +13,7 @@ export class HttpService {
 
     this.socket = io.connect('http://192.168.0.108:8888');
     // this.socket = io.connect('http://192.168.0.125:8888');
-    this.socket = io.connect('http://localhost:8888');
+    // this.socket = io.connect('http://localhost:8888');
   }
 
   login() {
