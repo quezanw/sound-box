@@ -24,13 +24,14 @@ export class RoomComponent implements OnInit {
     ) {
       this.socket = this._httpService.socket;
    }
+   $scope.hidden = false;
 
   ngOnInit() {
     this.queue = [];
     this.searchSong = '';
     this.searchResults = [];
     // this.refresh_token = this._httpService.getRefreshToken();
-    this.refresh_token = 
+    this.refresh_token =
     // 'AQBqvh6IcxG30MwQJS17whnGw9K1tXCWu5tR3n-EOStj4eow_XG1M2ciabjAzdlRVoVgu_VtdnuxEiGt5Akw7jQuq8Q_KxfUaxAxRX-ycc5SjwrE4EWIl2dVbuDGWQ-hHlP1VQ';
     "AQAb-V7CTJiFtkEx3lqaIsv5_8y__H5r85qHCQRhz4O0i1VZJMMwMnL-htnOxbzYE_VxgKzh44tc964xEVBi7pUejLOqVeqvY-uiUQzLQ9XJn7G2goUeyLX22zJcFxNkVqo-fA";
     console.log(this.refresh_token);
@@ -78,13 +79,16 @@ export class RoomComponent implements OnInit {
   // }
 
   addSong(song: any): void {
+    console.log(JSON.stringify(song));
     console.log("Adding song to queue");
     this.searchResults = [];
     this.socket.emit('add_song', song);
   }
 
-  upvote(song: any): void {
-    console.log("Upvoting song");
+  upvote(song: any, el: HTMLInputElement): void {
+    console.log(el);
+    el.disabled = true;
+    console.log('Upvoting song: ' + song.info.name);
     this.socket.emit('upvote', song);
   }
 
