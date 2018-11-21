@@ -7,9 +7,9 @@
         <button (click)="show_form = !show_form" class="create-room-btn green-btn">+</button>
       </div>
       <div class="rooms-view-pane">
-        <div *ngFor="let room of rooms" (click)="getRoom(room._id)" class="row">
-          <p class="room-name">{{ room }}</p>
-          <p class="room-qty">0</p>
+        <div *ngFor="let room of rooms" (click)="getRoom(room.name)" class="row">
+          <p class="room-name">{{ room.name }}</p>
+          <p class="room-qty">{{ room.members }}</p>
         </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <hr>
       <form class="room-password-form form form-horizontal">
         <!-- <input class="form-control" type="text" placeholder="password"> -->
-        <button (click)="joinRoom('1012823')" class="btn green-btn">Join Room</button>
+        <button (click)="joinRoom(room_info.name)" class="btn green-btn">Join Room</button>
       </form>
     </div>
   </div>

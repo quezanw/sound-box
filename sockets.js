@@ -1,7 +1,8 @@
 module.exports = server => {
     const io = require('socket.io').listen(server);
   
-    var rooms = {};
+    // var room_names = {};
+    var rooms = [];
 
     io.on('connection', socket => { 
         console.log('user connected');
@@ -12,9 +13,10 @@ module.exports = server => {
     
         io.emit('show_rooms', rooms);
 
-        socket.on('add_room', room_name => {
-            console.log("Creating room", room_name);
-            rooms[room_name] = room_name;
+        socket.on('add_room', room => {
+            console.log("Creating room", room.name);
+            // room_names[room.name] = room.name;
+            rooms.push(room);
             io.emit('show_rooms', rooms);
         });
 
@@ -22,7 +24,13 @@ module.exports = server => {
         socket.on('join', room => {
             console.log("Joining room " + room);
             socket.join(room);
-            socket.broadcast.to(room).emit('room message', 'Someone has entered the room!');
+            for (let roomJoined of rooms) {
+                if (roomJoined.name == room) {
+                    roomJoined.members++;
+                }
+            }
+            io.emit('show_rooms', rooms);
+            socket.broadcast.to(room).emit('room_joined', room);
 
             // adding a song to the queue
             socket.on('add_song', song => {

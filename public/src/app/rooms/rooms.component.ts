@@ -26,7 +26,7 @@ export class RoomsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.room_info = { name: "Room Name", members: 0};
+    this.room_info = {name: "Room Name", members: 0};
     this.errors = [];
     this.show_form = false;
     this.new_room = {};
@@ -38,25 +38,31 @@ export class RoomsComponent implements OnInit {
       this.new_room['host_token'] = this.refresh_token;
     })
     this.socket.on('show_rooms', rooms => {
-      this.rooms = [];      
-      for (let room in rooms) {
-        this.rooms.push(room);
-      }
+      this.rooms = rooms;
+      console.log(this.rooms);
     });
   }
 
-  joinRoom(room: string) {
+  joinRoom(room_name: string) {
     console.log("User is joining room...")
-    this.socket.emit('join', room);
-    this._router.navigate(['/room/' + room]);
-    this.socket.on('room message', data => {
-      console.log(data);
+    this.socket.emit('join', room_name);
+    this._router.navigate(['/room/' + room_name]);
+    this.socket.on('room_joined', room_name => {
+      console.log("Someone has joined", room_name);
     });
   }
 
   createRoom() {
-    this.socket.emit('add_room', this.new_room.name);
+    this.socket.emit('add_room', {name: this.new_room.name, members: 0, host_refresh_token: this.refresh_token});
     this.show_form = !this.show_form;
+  }
+
+  getRoom(name: string) {
+    for (let room of this.rooms) {
+      if (room.name == name) {
+        this.room_info = room
+      }
+    }
   }
 
   // getRoom(id) {
