@@ -57,9 +57,9 @@
       <p class="user-name">Robot</p>
     </div>
     <!-- row for users bellow - above is the row for the robot. do not touch! -->
-    <div class="row">
-      <img class="user-img">
-      <p class="user-name">Quezan Wong</p>
+    <div class="row" *ngFor="let user of users">
+      <img class="user-img" src="{{ user.images[0].url }}">
+      <p class="user-name">{{ user.display_name }}</p>
     </div>
 
 

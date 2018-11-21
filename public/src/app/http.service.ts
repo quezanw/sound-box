@@ -11,8 +11,7 @@ export class HttpService {
 
   constructor(private _http: HttpClient) {
 
-    this.socket = io.connect('http://192.168.0.108:8888');
-    // this.socket = io.connect('http://192.168.0.125:8888');
+    // this.socket = io.connect('http://192.168.0.108:8888');
     this.socket = io.connect('http://localhost:8888');
   }
 
@@ -36,15 +35,7 @@ export class HttpService {
     return this._http.put('/play_song', song);
   }
 
-  // createRoom(room: any) {
-  //     return this._http.post('/create_room', room);
-  // }
-
-  // getAllRooms() {
-  //     return this._http.get('/get_rooms');
-  // }
-
-  // getRoomById(id) {
-  //     return this._http.get('/get_room/' + id);
-  // }
+  getUser(user: string, refresh_token: string) {
+    return this._http.get('/get_user/' + user + '/' + refresh_token);
+  }
 }

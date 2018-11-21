@@ -17,6 +17,8 @@ export class RoomComponent implements OnInit {
   roomID: string;
   socket: SocketIOClient.Socket;
   playing: boolean;
+  userID: string;
+  users: any[];
 
   constructor(
     private _httpService: HttpService,
@@ -29,16 +31,23 @@ export class RoomComponent implements OnInit {
     this.queue = [];
     this.searchSong = '';
     this.searchResults = [];
-    // this.refresh_token = this._httpService.getRefreshToken();
-    this.refresh_token =
+    // this.refresh_token =
     // 'AQBqvh6IcxG30MwQJS17whnGw9K1tXCWu5tR3n-EOStj4eow_XG1M2ciabjAzdlRVoVgu_VtdnuxEiGt5Akw7jQuq8Q_KxfUaxAxRX-ycc5SjwrE4EWIl2dVbuDGWQ-hHlP1VQ';
-    "AQAb-V7CTJiFtkEx3lqaIsv5_8y__H5r85qHCQRhz4O0i1VZJMMwMnL-htnOxbzYE_VxgKzh44tc964xEVBi7pUejLOqVeqvY-uiUQzLQ9XJn7G2goUeyLX22zJcFxNkVqo-fA";
+    // "AQAb-V7CTJiFtkEx3lqaIsv5_8y__H5r85qHCQRhz4O0i1VZJMMwMnL-htnOxbzYE_VxgKzh44tc964xEVBi7pUejLOqVeqvY-uiUQzLQ9XJn7G2goUeyLX22zJcFxNkVqo-fA";
     console.log(this.refresh_token);
     this.currentSong = null;
     this.upvoted = true;
     this.playing = false;
     this._route.params.subscribe((params: Params) => {
       this.roomID = params['room_id'];
+    });
+    this.users = [];
+    this.socket.on('room_joined', room => {
+      console.log(room.user, "has joined", room.room_name);
+      this.userID = room.user;
+      this.refresh_token = room.refresh_token;
+      console.log(this.refresh_token)
+      this.getUser();
     });
     this.socket.on('song_queue', data => {
       this.queue.push({info: data, upvotes: 0});
@@ -68,15 +77,6 @@ export class RoomComponent implements OnInit {
     });
   }
 
-  // addSong(song: any): void {
-  //   console.log(song);
-  //   this.searchResults = [];
-  //   this.queue.push({info: song, upvotes: 0});
-  //   if (!this.currentSong) {
-  //     this.playSong();
-  //   } 
-  // }
-
   addSong(song: any): void {
     this.searchResults = [];
     this.socket.emit('add_song', song);
@@ -96,20 +96,14 @@ export class RoomComponent implements OnInit {
       console.log(this.currentSong.info.name)
       this.queue.shift();
       console.log("length of queue after remove " + this.queue.length);
-
-      // host only
       let observable = this._httpService.playSong({song_uri: this.currentSong.info.uri, refresh_token: this.refresh_token});
       observable.subscribe(data => {
         this.playing = false;
         setTimeout(() => this.playSong(), this.currentSong.info.duration_ms + 2000);  
       }); 
-
-    // set timeout for everyone
-
     } else {
       this.currentSong = null;
     }
-
     //   let el = document.getElementById('progress');
     //   console.log(el);
     //   var width = 1;
@@ -122,6 +116,14 @@ export class RoomComponent implements OnInit {
     //       el.setAttribute('style', 'width:' + width + '%;');
     //     }
     //   }
+  }
+
+  getUser(): void {
+    let observable = this._httpService.getUser(this.userID, this.refresh_token);
+    observable.subscribe(data => {
+      this.users.push(data['body']['body']);
+      console.log(this.users);
+    })
   }
 
 }

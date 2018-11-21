@@ -22,15 +22,17 @@ module.exports = server => {
 
         // joining a room
         socket.on('join', room => {
-            console.log("Joining room " + room);
-            socket.join(room);
+            console.log("User", room.user, "is joining room " + room.room_name);
+            socket.join(room.room_name);
+            let refresh_token = '';
             for (let roomJoined of rooms) {
-                if (roomJoined.name == room) {
+                if (roomJoined.name == room.room_name) {
                     roomJoined.members++;
+                    refresh_token = roomJoined.host_refresh_token;
                 }
             }
             io.emit('show_rooms', rooms);
-            socket.broadcast.to(room).emit('room_joined', room);
+            io.to(room.room_name).emit('room_joined', {room_name: room.room_name, user: room.user, refresh_token: refresh_token});
 
             // adding a song to the queue
             socket.on('add_song', song => {

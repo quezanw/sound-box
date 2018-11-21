@@ -4,7 +4,7 @@ const path = require('path');
 	client_id = '0466c059bcf9445b900d493d0d29a087',
 	client_secret = 'd9a906cbb0974cc3abb168cf8dc676dc',
 
-	redirect_uri = 'http://192.168.0.108:8888/callback',
+	// redirect_uri = 'http://192.168.0.108:8888/callback',
 
 	redirect_uri = 'http://localhost:8888/callback',
 
@@ -171,6 +171,41 @@ module.exports = {
 				});
 			} else {
 				res.json({error});
+			}
+		});
+	},
+	get_user: (req, res) => {
+		var authOptions = {
+			url: 'https://accounts.spotify.com/api/token',
+			headers: {
+				'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+			},
+			form: {
+				grant_type: 'refresh_token',
+				refresh_token: req.params.refresh_token
+			},
+			json: true
+		};
+
+		request.post(authOptions, function (error, response, body) {
+			if (!error && response.statusCode === 200) {
+				let access_token = body.access_token;
+				var options = {
+					url: 'https://api.spotify.com/v1/users/' + req.params.user_id,
+					headers: {
+						'Authorization': 'Bearer ' + access_token
+					},
+					json: true
+				};
+				request.get(options, (error, body) => {
+					if (!error) {
+						res.json({body});
+					} else {
+						res.json({message: "user error", err: error});
+					}
+				});
+			} else {
+				res.json({message: "token error", err: error});
 			}
 		});
 	},

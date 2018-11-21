@@ -9,6 +9,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 })
 export class RoomsComponent implements OnInit {
   refresh_token: string;
+  userID: string;
   show_form: boolean;
   rooms: any;
   room_info: any;
@@ -36,6 +37,7 @@ export class RoomsComponent implements OnInit {
       this._httpService.setRefreshToken(this.refresh_token);
       console.log(this._httpService.refresh_token);
       this.new_room['host_token'] = this.refresh_token;
+      this.userID = params['user_id'];
     })
     this.socket.on('show_rooms', rooms => {
       this.rooms = rooms;
@@ -45,11 +47,8 @@ export class RoomsComponent implements OnInit {
 
   joinRoom(room_name: string) {
     console.log("User is joining room...")
-    this.socket.emit('join', room_name);
+    this.socket.emit('join', {room_name: room_name, user: this.userID});
     this._router.navigate(['/room/' + room_name]);
-    this.socket.on('room_joined', room_name => {
-      console.log("Someone has joined", room_name);
-    });
   }
 
   createRoom() {
