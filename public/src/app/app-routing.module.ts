@@ -6,7 +6,7 @@ import { RoomComponent } from './room/room.component';
 
 const routes: Routes = [
     {path: '', component: LoginComponent},
-    {path: 'rooms/:refresh_token', component: RoomsComponent},
+    {path: 'rooms/:refresh_token/:user_id', component: RoomsComponent},
     {path: 'room/:room_id', component: RoomComponent}
 ];
 
