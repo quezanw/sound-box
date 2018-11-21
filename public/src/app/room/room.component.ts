@@ -90,19 +90,17 @@ export class RoomComponent implements OnInit {
         var el: HTMLElement = document.getElementById('progress');
         let width = 1;
         let currTime = 100;
-        var id = setInterval(frame, 500);
+        var id = setInterval(frame, 1000);
         function frame() {
           if (width >= 100) {
             clearInterval(id);
           } else {
-            currTime += 500; 
+            currTime += 1000; 
             width = (currTime / duration) * 100;
             el.setAttribute('style', 'width:' + width + '%;');
           }
         }
-
-
-        setTimeout(() => this.playSong(), this.currentSong.info.duration_ms + 2000);
+        setTimeout(() => this.playSong(),this.currentSong.info.duration_ms + 2000);
       });
     } else {
       // emit through socket

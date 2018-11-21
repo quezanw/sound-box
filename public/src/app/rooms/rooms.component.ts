@@ -17,7 +17,7 @@ export class RoomsComponent implements OnInit {
   members: Number;
   errors: any;
   socket: SocketIOClient.Socket;
-
+  error: String;
   constructor(
     private _httpService: HttpService,
     private _route: ActivatedRoute,
@@ -32,6 +32,7 @@ export class RoomsComponent implements OnInit {
     this.show_form = false;
     this.new_room = {};
     this.members = 0;
+    this.error = "";
     this._route.params.subscribe((params: Params) => {
       this.refresh_token = params['refresh_token'];
       this.new_room['host_token'] = this.refresh_token;
@@ -53,14 +54,32 @@ export class RoomsComponent implements OnInit {
   }
 
   createRoom() {
-    this.socket.emit('add_room', {
-      name: this.new_room.name, 
-      members: [],
-      queue: [],
-      current_song: null,
-      host_refresh_token: this.refresh_token
-    });
-    this.show_form = !this.show_form;
+    if(this.new_room.name.length < 1) {
+        this.error = "Room name cannot be blank.";
+    } else {
+        this.error = "";
+    }
+    let roomExists = false;
+    for(let i = 0 ; i < this.rooms.length; i++) {
+        if(this.rooms[i].name == this.new_room.name) {
+            roomExists = true;
+        }
+    }
+    if(!roomExists) {
+        this.socket.emit('add_room', {
+            name: this.new_room.name, 
+            members: [],
+            queue: [],
+            current_song: null,
+            host_refresh_token: this.refresh_token
+          });
+          this.show_form = !this.show_form;
+          this.error = "";
+          this.new_room.name = "";
+    } else {
+        this.error = "Room name taken.";
+    }
+
   }
 
   getRoom(name: string) {
