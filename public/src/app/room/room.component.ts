@@ -86,12 +86,30 @@ export class RoomComponent implements OnInit {
       this.socket.emit('remove_song', "Dequeueing song");
       let observable = this._httpService.playSong({song_uri: this.currentSong.info.uri, refresh_token: this.refresh_token});
       observable.subscribe(data => {
-        setTimeout(() => this.playSong(), this.currentSong.info.duration_ms + 2000);  
-      }); 
+        let duration = this.currentSong.info.duration_ms;
+        var el: HTMLElement = document.getElementById('progress');
+        let width = 1;
+        let currTime = 100;
+        var id = setInterval(frame, 500);
+        function frame() {
+          if (width >= 100) {
+            clearInterval(id);
+          } else {
+            currTime += 500; 
+            width = (currTime / duration) * 100;
+            el.setAttribute('style', 'width:' + width + '%;');
+          }
+        }
+
+
+        setTimeout(() => this.playSong(), this.currentSong.info.duration_ms + 2000);
+      });
     } else {
       // emit through socket
       this.currentSong = null;
     }
+
+
     //   let el = document.getElementById('progress');
     //   console.log(el);
     //   var width = 1;

@@ -28,7 +28,7 @@
           <p class="row-song-name-artist">
             {{ song.info.name }} - {{ song.info.artists[0].name }}
           </p>
-          <button class="btn upvote-btn" *ngIf="upvoted" (click)="upvote(song, $event.currentTarget)">
+          <button class="btn upvote-btn" (click)="upvote(song, $event.currentTarget)">
             <i class="far fa-thumbs-up"></i>
           </button>
           <p class="upvotes">{{ song.upvotes }}</p>
@@ -37,7 +37,7 @@
     </div>
   </div>
   <div class="song-progress-bar">
-    <div class="progress"></div>
+    <div id="progress"></div>
   </div>
   <div class="user-list">
     <div class="row">
