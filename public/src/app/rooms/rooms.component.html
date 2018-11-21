@@ -1,39 +1,96 @@
 <div class="container-fluid">
-    <h1 class="header-style custom-header-font">SOUND-BOX ROOMS</h1>
-    <div *ngIf="!show_form" class="rooms-view">
-        <div class="left-pane pane">
-            <div class="rooms-pane-header">
-                <input class="room-search-input" type="text" placeholder="search">
-                <button (click)="showCreateRoom()" class="create-room-btn green-btn">+</button>
-            </div>
-            <div class="rooms-view-pane">
-                <div *ngFor="let room of rooms" (click)="getRoom(room._id)" class="row">
-                    <p class="room-name">{{room.name}}</p>
-                    <p class="room-qty">{{room.users.length}}</p>
-                </div>
-                <!-- test to see if we can join a specific room -->
-                <!-- <button class="btn-oval" (click)="joinRoom('1012823')">Join Room</button> -->
-            </div>
+  <h1 class="header-style custom-header-font">SOUND-BOX ROOMS</h1>
+  <div *ngIf="!show_form" class="rooms-view">
+    <div class="left-pane pane">
+      <div class="rooms-pane-header">
+        <input class="room-search-input" type="text" placeholder="search">
+        <button (click)="showCreateRoom()" class="create-room-btn green-btn">+</button>
+      </div>
+      <div class="rooms-view-pane">
+        <div *ngFor="let room of rooms" (click)="getRoom(room._id)" class="row">
+          <p class="room-name">{{room.name}}</p>
+          <p class="room-qty">{{room.users.length}}</p>
         </div>
-        <div class="right-pane pane">
-            <h4 class="room-name">{{room_info.name}}</h4>
-            <p><span class="room-qty">{{room_info.members}}</span> members</p>
-            <hr>
-            <form class="room-password-form form form-horizontal">
-                <input class="form-control" type="text" placeholder="password">
-                <button (click)="joinRoom('1012823')" class="btn green-btn">Join Room</button>
-            </form>
+        <div class="row">
+          <p class="room-name">Test Room - 1</p>
+          <p class="room-qty">10</p>
         </div>
+        <div class="row">
+          <p class="room-name">Test Room - 2</p>
+          <p class="room-qty">0</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 3</p>
+          <p class="room-qty">2</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 10</p>
+          <p class="room-qty">6</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 31</p>
+          <p class="room-qty">12</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 1</p>
+          <p class="room-qty">20</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 3</p>
+          <p class="room-qty">2</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 10</p>
+          <p class="room-qty">6</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 31</p>
+          <p class="room-qty">12</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 1</p>
+          <p class="room-qty">21</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 3</p>
+          <p class="room-qty">2</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 10</p>
+          <p class="room-qty">6</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 31</p>
+          <p class="room-qty">12</p>
+        </div>
+        <div class="row">
+          <p class="room-name">Test Room - 1</p>
+          <p class="room-qty">21</p>
+        </div>
+
+        <!-- test to see if we can join a specific room -->
+        <!-- <button class="btn-oval" (click)="joinRoom('1012823')">Join Room</button> -->
+      </div>
     </div>
-    <div *ngIf="show_form" class="create-room">
-        <button (click)="show_form = !show_form">back</button>
-        <form  (submit)="createRoom()"class="form create-room-form form-horizontal" action="">
-            <input [(ngModel)]="new_room.name" name="new_room.name" class="form-control" type="text" placeholder="room name">
-            <input [(ngModel)]="new_room.password" name="new_room.password" class="form-control" type="text" placeholder="room password">
-            <button type="submit" class="btn green-btn">create</button>
-        </form>
-        <p class="error" *ngFor="let err of errors">
-            {{err}}
-        </p>
+    <div class="right-pane pane">
+      <h4 class="room-name">{{room_info.name}}</h4>
+      <p><span class="room-qty">{{room_info.members}}</span> members</p>
+      <hr>
+      <form class="room-password-form form form-horizontal">
+        <input class="form-control" type="text" placeholder="password">
+        <button (click)="joinRoom('1012823')" class="btn green-btn">Join Room</button>
+      </form>
     </div>
+  </div>
+  <div *ngIf="show_form" class="create-room">
+    <form (submit)="createRoom()" class="form create-room-form form-horizontal" action="">
+      <input [(ngModel)]="new_room.name" name="new_room.name" class="form-control" type="text" placeholder="room name">
+      <input [(ngModel)]="new_room.password" name="new_room.password" class="form-control" type="text" placeholder="room password">
+      <div class="btn-wrapper"><button type="submit" class="btn btn-success">create</button>
+        <button class="btn btn-danger" (click)="show_form = !show_form">cancel</button></div>
+    </form>
+    <p class="error" *ngFor="let err of errors">
+      {{err}}
+    </p>
+  </div>
 </div>
