@@ -1,6 +1,8 @@
 module.exports = server => {
     const io = require('socket.io').listen(server);
-    
+  
+    var rooms = {};
+
     io.on('connection', socket => { 
         console.log('user connected');
         
@@ -8,6 +10,14 @@ module.exports = server => {
             console.log('user disconnected')
         });
     
+        io.emit('show_rooms', rooms);
+
+        socket.on('add_room', room_name => {
+            console.log("Creating room", room_name);
+            rooms[room_name] = room_name;
+            io.emit('show_rooms', rooms);
+        });
+
         // joining a room
         socket.on('join', room => {
             console.log("Joining room " + room);
