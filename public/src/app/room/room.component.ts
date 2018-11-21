@@ -16,6 +16,7 @@ export class RoomComponent implements OnInit {
   upvoted: boolean;
   roomID: string;
   socket: SocketIOClient.Socket;
+  playing: boolean;
 
   constructor(
     private _httpService: HttpService,
@@ -35,6 +36,7 @@ export class RoomComponent implements OnInit {
     console.log(this.refresh_token);
     this.currentSong = null;
     this.upvoted = true;
+    this.playing = false;
     this._route.params.subscribe((params: Params) => {
       this.roomID = params['room_id'];
     });
@@ -43,6 +45,17 @@ export class RoomComponent implements OnInit {
       if (!this.currentSong) {
         this.playSong();
       }
+    });
+    this.socket.on('song_upvoted', song => {
+      for (let i = 0; i < this.queue.length; i++) {
+        if (this.queue[i].info.name == song.info.name) {
+          this.queue[i].upvotes++;
+        }
+      } 
+      // this.upvoted = false;
+      this.queue.sort(function(a, b) {
+        return b.upvotes - a.upvotes;
+      });
     });
   }
 
@@ -67,27 +80,27 @@ export class RoomComponent implements OnInit {
   addSong(song: any): void {
     console.log("Adding song to queue");
     this.searchResults = [];
-    this.socket.emit('add_song', {song: song, room: this.roomID});
+    this.socket.emit('add_song', song);
   }
 
   upvote(song: any): void {
-    song.upvotes++;
-    // this.upvoted = false;
-    this.queue.sort(function(a, b) {
-      return b.upvotes - a.upvotes;
-    });
+    console.log("Upvoting song");
+    this.socket.emit('upvote', song);
   }
 
   playSong(): void {
-    if (this.queue.length > 0) {
-      console.log(this.queue)
+    if (!this.playing && this.queue.length > 0) {
+      this.playing = true;
+      console.log("length of queue before remove " + this.queue.length);
       this.currentSong = this.queue[0];
+      console.log(this.currentSong.info.name)
       this.queue.shift();
-      console.log(this.queue)
+      console.log("length of queue after remove " + this.queue.length);
 
       // host only
       let observable = this._httpService.playSong({song_uri: this.currentSong.info.uri, refresh_token: this.refresh_token});
       observable.subscribe(data => {
+        this.playing = false;
         setTimeout(() => this.playSong(), this.currentSong.info.duration_ms + 2000);  
       }); 
 
