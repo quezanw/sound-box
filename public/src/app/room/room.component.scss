@@ -121,7 +121,7 @@ div.main-content {
         div.queue-list {
             border: 3px solid rgb(162, 162, 168);
             width: 100%;
-            height: 100%;
+            height: 90%;
             overflow-y: scroll;
             pointer-events: none;
             div.row {
@@ -154,7 +154,7 @@ div.main-content {
 div.song-progress-bar { 
     width: 100%; 
     // height: 10px;
-    margin: 2em 0;
+    // margin: 1em 0;
     background-color: #ddd;
     div#progress {
         width: 30%;
