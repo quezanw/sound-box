@@ -34,7 +34,6 @@ export class RoomComponent implements OnInit {
     // this.refresh_token =
     // 'AQBqvh6IcxG30MwQJS17whnGw9K1tXCWu5tR3n-EOStj4eow_XG1M2ciabjAzdlRVoVgu_VtdnuxEiGt5Akw7jQuq8Q_KxfUaxAxRX-ycc5SjwrE4EWIl2dVbuDGWQ-hHlP1VQ';
     // "AQAb-V7CTJiFtkEx3lqaIsv5_8y__H5r85qHCQRhz4O0i1VZJMMwMnL-htnOxbzYE_VxgKzh44tc964xEVBi7pUejLOqVeqvY-uiUQzLQ9XJn7G2goUeyLX22zJcFxNkVqo-fA";
-    console.log(this.refresh_token);
     this.currentSong = null;
     this.upvoted = true;
     this.playing = false;
@@ -43,11 +42,11 @@ export class RoomComponent implements OnInit {
     });
     this.users = [];
     this.socket.on('room_joined', room => {
-      console.log(room.user, "has joined", room.room_name);
+      console.log("Someone has joined", room.room_name);
       this.userID = room.user;
       this.refresh_token = room.refresh_token;
       console.log(this.refresh_token)
-      this.getUser();
+      this.users = room.users;
     });
     this.socket.on('song_queue', data => {
       this.queue.push({info: data, upvotes: 0});
@@ -116,14 +115,6 @@ export class RoomComponent implements OnInit {
     //       el.setAttribute('style', 'width:' + width + '%;');
     //     }
     //   }
-  }
-
-  getUser(): void {
-    let observable = this._httpService.getUser(this.userID, this.refresh_token);
-    observable.subscribe(data => {
-      this.users.push(data['body']['body']);
-      console.log(this.users);
-    })
   }
 
 }

@@ -22,17 +22,24 @@ module.exports = server => {
 
         // joining a room
         socket.on('join', room => {
-            console.log("User", room.user, "is joining room " + room.room_name);
+            if (!room.user.display_name) {
+                room.user = {display_name: "Anonymous", images: [{url: "https://developer.spotify.com/assets/branding-guidelines/icon3@2x.png"}]};
+            }
+            console.log("User", room.user.display_name, "is joining room " + room.room_name);
             socket.join(room.room_name);
             let refresh_token = '';
+            let currentRoom = {}
             for (let roomJoined of rooms) {
                 if (roomJoined.name == room.room_name) {
-                    roomJoined.members++;
+                    roomJoined.members.push(room.user);
+                    currentRoom = roomJoined;
                     refresh_token = roomJoined.host_refresh_token;
                 }
             }
             io.emit('show_rooms', rooms);
-            io.to(room.room_name).emit('room_joined', {room_name: room.room_name, user: room.user, refresh_token: refresh_token});
+            io.to(room.room_name).emit('room_joined', {
+                room_name: room.room_name, users: currentRoom.members, refresh_token: refresh_token
+            });
 
             // adding a song to the queue
             socket.on('add_song', song => {

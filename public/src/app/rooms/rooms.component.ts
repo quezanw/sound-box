@@ -34,8 +34,6 @@ export class RoomsComponent implements OnInit {
     this.members = 0;
     this._route.params.subscribe((params: Params) => {
       this.refresh_token = params['refresh_token'];
-      this._httpService.setRefreshToken(this.refresh_token);
-      console.log(this._httpService.refresh_token);
       this.new_room['host_token'] = this.refresh_token;
       this.userID = params['user_id'];
     })
@@ -47,12 +45,19 @@ export class RoomsComponent implements OnInit {
 
   joinRoom(room_name: string) {
     console.log("User is joining room...")
-    this.socket.emit('join', {room_name: room_name, user: this.userID});
-    this._router.navigate(['/room/' + room_name]);
+    let observable = this._httpService.getUser(this.userID, this.refresh_token);
+    observable.subscribe(data => {
+      this.socket.emit('join', {room_name: room_name, user: data['body']['body']});
+      this._router.navigate(['/room/' + room_name]);
+    })
   }
 
   createRoom() {
-    this.socket.emit('add_room', {name: this.new_room.name, members: 0, host_refresh_token: this.refresh_token});
+    this.socket.emit('add_room', {
+      name: this.new_room.name, 
+      members: [], 
+      host_refresh_token: this.refresh_token
+    });
     this.show_form = !this.show_form;
   }
 

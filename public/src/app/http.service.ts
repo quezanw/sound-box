@@ -6,7 +6,6 @@ import * as io from 'socket.io-client';
   providedIn: 'root'
 })
 export class HttpService {
-  refresh_token: any;
   socket: SocketIOClient.Socket;
 
   constructor(private _http: HttpClient) {
@@ -21,14 +20,6 @@ export class HttpService {
 
   getSong(name: string, refresh_token: string) {
     return this._http.get('/get_song/' + name + '/' + refresh_token);
-  }
-
-  setRefreshToken(data: string) {
-    this.refresh_token = data;
-  }
-
-  getRefreshToken() {
-    return this.refresh_token;
   }
 
   playSong(song: any) {
