@@ -1,11 +1,13 @@
-// const User = require('../models/user').user,
-//     Room = require('../models/room');
 const path = require('path');
 	request = require('request'),
 	querystring = require('querystring'),
 	client_id = '0466c059bcf9445b900d493d0d29a087',
 	client_secret = 'd9a906cbb0974cc3abb168cf8dc676dc',
+
 	redirect_uri = 'http://192.168.0.108:8888/callback',
+
+	redirect_uri = 'http://localhost:8888/callback',
+
 	stateKey = 'spotify_auth_state';
 
 var generateRandomString = function (length) {
@@ -16,29 +18,6 @@ var generateRandomString = function (length) {
 	}
 	return text;
 };
-
-// requesting access token from refresh token
-// var getAccessToken = refresh_token => {
-// 	console.log("entered query")
-// 	var authOptions = {
-// 		url: 'https://accounts.spotify/room/1012823.com/api/token',
-// 		headers: {
-// 			'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-// 		},
-// 		form: {
-// 			grant_type: 'refresh_token',
-// 			refresh_token: refresh_token
-// 		},
-// 		json: true
-// 	};
-
-// 	request.post(authOptions, function (error, response, body) {
-// 		if (!error && response.statusCode === 200) {
-// 			console.log("access token: " + body.access_token)
-// 			return body.access_token;
-// 		}
-// 	});
-// }
 
 module.exports = {
 	login: (req, res) => {
@@ -95,43 +74,27 @@ module.exports = {
 
 					// use the access token to access the Spotify Web API
 					request.get(options, function (error, response, body) {
-						// console.log(body);
-
-						// enter user into database if they don't already exist
-						// User.find({spotify_id: body.id})
-						// 	.then(data => {
-						// 		if (data.length == 0) {
-						// 			let user = new User({
-						// 				name: body.display_name,
-						// 				spotify_id: body.id,
-						// 				refresh_token: refresh_token
-						// 			});
-						// 			user.save()
-						// 				.then(user => console.log(user))
-						// 				.catch(err => console.log(err));
-						// 		}
-						// 	})
-						// 	.catch(err => console.log(err));
+						if (!error) {
+							res.redirect('/rooms/' + refresh_token + '/' + body.id);
+						} else {
+							res.redirect('/#' +
+								querystring.stringify({
+									error: 'invalid_token'
+								})
+							);
+						}
 					});
-					// res.redirect('/rooms');
-					res.redirect('/rooms/' + refresh_token)
-					// we can also pass the token to the browser to make requests from there
-					// res.redirect('/#' +
-					//   querystring.stringify({
-					//     access_token: access_token,
-					//     refresh_token: refresh_token
-					//   }));
 				} else {
 					res.redirect('/#' +
 						querystring.stringify({
 							error: 'invalid_token'
-						}));
+						})
+					);
 				}
 			});
 		}
 	},
 	get_song: (req, res) => {
-		// let access_token = await getAccessToken(req.params.refresh_token);
 		var authOptions = {
 			url: 'https://accounts.spotify.com/api/token',
 			headers: {
@@ -214,24 +177,4 @@ module.exports = {
 	angular: (req, res) => {
 		res.sendFile(path.resolve('./public/dist/public/index.html'));
     },
-    // createRoom: (req, res) => {
-    //     let room = new Room({
-    //         name: req.body.name,
-    //         password: req.body.password,
-    //         host_token: req.body.host_token
-    //     })
-    //     room.save()
-    //     .then(result => res.json(result))
-    //     .catch(err => res.json(err))
-    // },
-    // getRooms: (req, res) => {
-    //     Room.find({})
-    //         .then(rooms => res.json(rooms))
-    //         .catch(err => res.json(err))
-    // },
-    // getRoom: (req, res) => {
-    //     Room.findOne({_id: req.params.id})
-    //         .then(room => res.json(room))
-    //         .catch(err => res.json(err))
-    // }
 }
