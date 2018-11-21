@@ -28,7 +28,6 @@ export class RoomComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.queue = [];
     this.searchSong = '';
     this.searchResults = [];
     // this.refresh_token =
@@ -43,13 +42,13 @@ export class RoomComponent implements OnInit {
     this.users = [];
     this.socket.on('room_joined', room => {
       console.log("Someone has joined", room.room_name);
-      this.userID = room.user;
+      this.queue = room.queue;
       this.refresh_token = room.refresh_token;
-      console.log(this.refresh_token)
       this.users = room.users;
     });
     this.socket.on('song_queue', data => {
-      this.queue.push({info: data, upvotes: 0});
+      this.queue = data;
+      console.log(this.queue)
       if (!this.currentSong) {
         this.playSong();
       }
@@ -90,9 +89,7 @@ export class RoomComponent implements OnInit {
   playSong(): void {
     if (!this.playing && this.queue.length > 0) {
       this.playing = true;
-      console.log("length of queue before remove " + this.queue.length);
       this.currentSong = this.queue[0];
-      console.log(this.currentSong.info.name)
       this.queue.shift();
       console.log("length of queue after remove " + this.queue.length);
       let observable = this._httpService.playSong({song_uri: this.currentSong.info.uri, refresh_token: this.refresh_token});

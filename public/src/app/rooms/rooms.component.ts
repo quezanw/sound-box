@@ -55,7 +55,8 @@ export class RoomsComponent implements OnInit {
   createRoom() {
     this.socket.emit('add_room', {
       name: this.new_room.name, 
-      members: [], 
+      members: [],
+      queue: [],
       host_refresh_token: this.refresh_token
     });
     this.show_form = !this.show_form;

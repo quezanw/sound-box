@@ -38,19 +38,29 @@ module.exports = server => {
             }
             io.emit('show_rooms', rooms);
             io.to(room.room_name).emit('room_joined', {
-                room_name: room.room_name, users: currentRoom.members, refresh_token: refresh_token
+                room_name: room.room_name, 
+                users: currentRoom.members,
+                queue: currentRoom.queue,
+                refresh_token: refresh_token
             });
 
             // adding a song to the queue
             socket.on('add_song', song => {
-                console.log("Adding song");
-                io.to(room).emit('song_queue', song);
+                currentRoom = {}
+                for (let roomJoined of rooms) {
+                    if (roomJoined.name == room.room_name) {
+                        roomJoined.queue.push({info: song, upvotes: 0});
+                        currentRoom = roomJoined;
+                        refresh_token = roomJoined.host_refresh_token;
+                    }
+                }
+                io.to(room.room_name).emit('song_queue', currentRoom.queue);
             })
 
             // upvoting a song
             socket.on('upvote', (song) => {
                 console.log("Server is upvoting song");
-                io.to(room).emit('song_upvoted', song);
+                io.to(room.room_name).emit('song_upvoted', song);
             })
         });
     });
