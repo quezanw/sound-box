@@ -34,7 +34,7 @@ export class RoomsComponent implements OnInit {
     this.show_form = false;
     this.new_room = {};
     this.members = 0;
-    this.getAllRooms();
+    // this.getAllRooms();
     this._route.params.subscribe((params: Params) => {
       this.refresh_token = params['refresh_token'];
       this._httpService.setRefreshToken(this.refresh_token);
@@ -56,42 +56,42 @@ export class RoomsComponent implements OnInit {
     this.show_form = true;
   }
 
-  getAllRooms() {
-    const observable = this._httpService.getAllRooms();
-    observable.subscribe(rooms => {
-        console.log(rooms);
-        this.rooms = rooms;
-    });
-  }
+  // getAllRooms() {
+  //   const observable = this._httpService.getAllRooms();
+  //   observable.subscribe(rooms => {
+  //       console.log(rooms);
+  //       this.rooms = rooms;
+  //   });
+  // }
 
-  createRoom() {
-      console.log(this.new_room);
-      const observable = this._httpService.createRoom(this.new_room);
-      observable.subscribe(data => {
-        console.log(data);
-        if (data['errors']) {
-            // console.log(data['errors']);
-            // tslint:disable-next-line:forin
-            for (let err in data['errors']) {
-                console.log(data['errors'][err]['message']);
-                this.errors.push(data['errors'][err]['message']);
-            }
-            console.log(this.errors);
-        } else {
-            this.new_room.name = '';
-            this.new_room.password = '';
-            this.show_form = false;
-            this.getAllRooms();
-        }
-        this.errors = [];
-      });
-  }
+  // createRoom() {
+  //     console.log(this.new_room);
+  //     const observable = this._httpService.createRoom(this.new_room);
+  //     observable.subscribe(data => {
+  //       console.log(data);
+  //       if (data['errors']) {
+  //           // console.log(data['errors']);
+  //           // tslint:disable-next-line:forin
+  //           for (let err in data['errors']) {
+  //               console.log(data['errors'][err]['message']);
+  //               this.errors.push(data['errors'][err]['message']);
+  //           }
+  //           console.log(this.errors);
+  //       } else {
+  //           this.new_room.name = '';
+  //           this.new_room.password = '';
+  //           this.show_form = false;
+  //           this.getAllRooms();
+  //       }
+  //       this.errors = [];
+  //     });
+  // }
 
-  getRoom(id) {
-    const observable = this._httpService.getRoomById(id);
-    observable.subscribe(room => {
-        this.room_info.name = room['name'];
-        this.room_info.members = room['members'].length;
-    });
-  }
+  // getRoom(id) {
+  //   const observable = this._httpService.getRoomById(id);
+  //   observable.subscribe(room => {
+  //       this.room_info.name = room['name'];
+  //       this.room_info.members = room['members'].length;
+  //   });
+  // }
 }
