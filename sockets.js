@@ -17,8 +17,13 @@ module.exports = server => {
             // adding a song to the queue
             socket.on('add_song', song => {
                 console.log("Adding song");
-                console.log(song['room'])
-                io.to(room).emit('song_queue', song['song']);
+                io.to(room).emit('song_queue', song);
+            })
+
+            // upvoting a song
+            socket.on('upvote', (song) => {
+                console.log("Server is upvoting song");
+                io.to(room).emit('song_upvoted', song);
             })
         });
     });
