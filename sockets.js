@@ -41,6 +41,7 @@ module.exports = server => {
                 room_name: room.room_name, 
                 users: currentRoom.members,
                 queue: currentRoom.queue,
+                current_song: currentRoom.current_song,
                 refresh_token: refresh_token
             });
 
@@ -60,8 +61,36 @@ module.exports = server => {
             // upvoting a song
             socket.on('upvote', (song) => {
                 console.log("Server is upvoting song");
-                io.to(room.room_name).emit('song_upvoted', song);
+                currentRoom = {}
+                for (let roomJoined of rooms) {
+                    if (roomJoined.name == room.room_name) {
+                        for (let votedSong of roomJoined.queue) {
+                            if (votedSong.info.name == song.info.name) {
+                                votedSong.upvotes++;
+                            }
+                        }
+                        roomJoined.queue.sort((a, b) => {
+                            return b.upvotes - a.upvotes
+                        });
+                        currentRoom = roomJoined;
+                    }
+                }
+                io.to(room.room_name).emit('song_upvoted', currentRoom.queue);
             })
+
+            // dequeueing a song
+            socket.on('remove_song', message => {
+                currentRoom = {}
+                for (let roomJoined of rooms) {
+                    if (roomJoined.name == room.room_name) {
+                        roomJoined.current_song = roomJoined.queue[0];
+                        roomJoined.queue.shift();
+                        currentRoom = roomJoined;
+                        refresh_token = roomJoined.host_refresh_token;
+                    }
+                }
+                io.to(room.room_name).emit('dequeued_song', currentRoom);
+            });
         });
     });
 }

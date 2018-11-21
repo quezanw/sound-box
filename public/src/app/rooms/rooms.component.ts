@@ -57,6 +57,7 @@ export class RoomsComponent implements OnInit {
       name: this.new_room.name, 
       members: [],
       queue: [],
+      current_song: null,
       host_refresh_token: this.refresh_token
     });
     this.show_form = !this.show_form;

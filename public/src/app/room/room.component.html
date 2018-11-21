@@ -9,7 +9,7 @@
           <option (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }}</option>
       </datalist> -->
       <ul class="song-search-results">
-        <li (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }}</li>
+        <li (click)="addSong(song)" *ngFor="let song of searchResults">{{ song.name }} - {{ song.artists[0].name }}</li>
       </ul>
     </form>
   </div>
