@@ -33,15 +33,15 @@ export class HttpService {
     return this._http.put('/play_song', song);
   }
 
-  createRoom(room: any) {
-      return this._http.post('/create_room', room);
-  }
+  // createRoom(room: any) {
+  //     return this._http.post('/create_room', room);
+  // }
 
-  getAllRooms() {
-      return this._http.get('/get_rooms');
-  }
+  // getAllRooms() {
+  //     return this._http.get('/get_rooms');
+  // }
 
-  getRoomById(id) {
-      return this._http.get('/get_room/' + id);
-  }
+  // getRoomById(id) {
+  //     return this._http.get('/get_room/' + id);
+  // }
 }
