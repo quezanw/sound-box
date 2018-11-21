@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../http.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-// import anime from 'animejs';
-
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -29,18 +27,22 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit() {
     this.room_info = { name: "Room Name", members: 0};
-    this.rooms = [];
     this.errors = [];
     this.show_form = false;
     this.new_room = {};
     this.members = 0;
-    // this.getAllRooms();
     this._route.params.subscribe((params: Params) => {
       this.refresh_token = params['refresh_token'];
       this._httpService.setRefreshToken(this.refresh_token);
       console.log(this._httpService.refresh_token);
       this.new_room['host_token'] = this.refresh_token;
     })
+    this.socket.on('show_rooms', rooms => {
+      this.rooms = [];      
+      for (let room in rooms) {
+        this.rooms.push(room);
+      }
+    });
   }
 
   joinRoom(room: string) {
@@ -52,40 +54,10 @@ export class RoomsComponent implements OnInit {
     });
   }
 
-  showCreateRoom() {
-    this.show_form = true;
+  createRoom() {
+    this.socket.emit('add_room', this.new_room.name);
+    this.show_form = !this.show_form;
   }
-
-  // getAllRooms() {
-  //   const observable = this._httpService.getAllRooms();
-  //   observable.subscribe(rooms => {
-  //       console.log(rooms);
-  //       this.rooms = rooms;
-  //   });
-  // }
-
-  // createRoom() {
-  //     console.log(this.new_room);
-  //     const observable = this._httpService.createRoom(this.new_room);
-  //     observable.subscribe(data => {
-  //       console.log(data);
-  //       if (data['errors']) {
-  //           // console.log(data['errors']);
-  //           // tslint:disable-next-line:forin
-  //           for (let err in data['errors']) {
-  //               console.log(data['errors'][err]['message']);
-  //               this.errors.push(data['errors'][err]['message']);
-  //           }
-  //           console.log(this.errors);
-  //       } else {
-  //           this.new_room.name = '';
-  //           this.new_room.password = '';
-  //           this.show_form = false;
-  //           this.getAllRooms();
-  //       }
-  //       this.errors = [];
-  //     });
-  // }
 
   // getRoom(id) {
   //   const observable = this._httpService.getRoomById(id);
