@@ -24,7 +24,6 @@ export class RoomComponent implements OnInit {
     ) {
       this.socket = this._httpService.socket;
    }
-   $scope.hidden = false;
 
   ngOnInit() {
     this.queue = [];
@@ -79,14 +78,11 @@ export class RoomComponent implements OnInit {
   // }
 
   addSong(song: any): void {
-    console.log(JSON.stringify(song));
-    console.log("Adding song to queue");
     this.searchResults = [];
     this.socket.emit('add_song', song);
   }
 
   upvote(song: any, el: HTMLInputElement): void {
-    console.log(el);
     el.disabled = true;
     console.log('Upvoting song: ' + song.info.name);
     this.socket.emit('upvote', song);
