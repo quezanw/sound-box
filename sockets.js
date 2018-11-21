@@ -1,7 +1,6 @@
 module.exports = server => {
     const io = require('socket.io').listen(server);
   
-    // var room_names = {};
     var rooms = [];
 
     io.on('connection', socket => { 
@@ -15,7 +14,6 @@ module.exports = server => {
 
         socket.on('add_room', room => {
             console.log("Creating room", room.name);
-            // room_names[room.name] = room.name;
             rooms.push(room);
             io.emit('show_rooms', rooms);
         });

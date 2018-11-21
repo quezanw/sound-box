@@ -70,12 +70,4 @@ export class RoomsComponent implements OnInit {
       }
     }
   }
-
-  // getRoom(id) {
-  //   const observable = this._httpService.getRoomById(id);
-  //   observable.subscribe(room => {
-  //       this.room_info.name = room['name'];
-  //       this.room_info.members = room['members'].length;
-  //   });
-  // }
 }
