@@ -1,7 +1,8 @@
 module.exports = server => {
     const io = require('socket.io').listen(server);
-
+  
     var rooms = {};
+
     io.on('connection', socket => { 
         console.log('user connected');
         
