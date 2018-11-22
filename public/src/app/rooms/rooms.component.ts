@@ -49,8 +49,15 @@ export class RoomsComponent implements OnInit {
     let observable = this._httpService.getUser(this.userID, this.refresh_token);
     observable.subscribe(data => {
       this.socket.emit('join', {room_name: room_name, user: data['body']['body']});
-      this._router.navigate(['/room/' + room_name]);
+      this._router.navigate(['/room/' + room_name + '/' + this.userID]);
     })
+  }
+
+  checkRoom(): boolean {
+    if (this.room_info.name == "Room Name") {
+      return true;
+    }
+    return false;
   }
 
   createRoom() {
@@ -71,7 +78,8 @@ export class RoomsComponent implements OnInit {
             members: [],
             queue: [],
             current_song: null,
-            host_refresh_token: this.refresh_token
+            host_refresh_token: this.refresh_token,
+            host_id: this.userID
           });
           this.show_form = !this.show_form;
           this.error = "";

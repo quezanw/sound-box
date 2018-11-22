@@ -28,7 +28,8 @@
           <p class="row-song-name-artist">
             {{ song.info.name }} - {{ song.info.artists[0].name }}
           </p>
-          <button class="btn upvote-btn" (click)="upvote(song, $event.currentTarget)">
+          <!-- <button class="btn upvote-btn" (click)="upvote(song, $event.currentTarget)"> -->
+          <button class="btn upvote-btn" (click)="upvote(song, $event.currentTarget)" [disabled]="checkVoted(song)">
             <i class="far fa-thumbs-up"></i>
           </button>
           <p class="upvotes">{{ song.upvotes }}</p>

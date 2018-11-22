@@ -19,7 +19,7 @@
       <hr>
       <form class="room-password-form form form-horizontal">
         <!-- <input class="form-control" type="text" placeholder="password"> -->
-        <button (click)="joinRoom(room_info.name)" class="btn green-btn">Join Room</button>
+        <button (click)="joinRoom(room_info.name)" class="btn green-btn" [disabled]="checkRoom()">Join Room</button>
       </form>
     </div>
   </div>
