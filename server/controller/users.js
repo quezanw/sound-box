@@ -4,7 +4,7 @@ const path = require('path');
 	client_id = '0466c059bcf9445b900d493d0d29a087',
 	client_secret = 'd9a906cbb0974cc3abb168cf8dc676dc',
 
-	// redirect_uri = 'http://192.168.0.108:8888/callback',
+	// redirect_uri = 'http://192.168.1.170:8888/callback',
 
 	redirect_uri = 'http://localhost:8888/callback',
 

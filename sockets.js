@@ -48,12 +48,16 @@ module.exports = server => {
                 currentRoom = {}
                 for (let roomJoined of rooms) {
                     if (roomJoined.name == room.room_name) {
-                        roomJoined.queue.push({info: song, upvotes: 0});
+                        roomJoined.queue.push({
+                            info: song, 
+                            upvotes: 0,
+                            users_voted: {}
+                        });
                         currentRoom = roomJoined;
                         refresh_token = roomJoined.host_refresh_token;
                     }
                 }
-                io.to(room.room_name).emit('song_queue', currentRoom.queue);
+                io.to(room.room_name).emit('song_queue', currentRoom);
             })
 
             // upvoting a song
@@ -63,8 +67,9 @@ module.exports = server => {
                 for (let roomJoined of rooms) {
                     if (roomJoined.name == room.room_name) {
                         for (let votedSong of roomJoined.queue) {
-                            if (votedSong.info.name == song.info.name) {
+                            if (votedSong.info.name == song.song.info.name) {
                                 votedSong.upvotes++;
+                                votedSong.users_voted[song.user_id] = true;
                             }
                         }
                         roomJoined.queue.sort((a, b) => {

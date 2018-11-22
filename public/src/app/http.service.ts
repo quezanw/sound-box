@@ -9,9 +9,7 @@ export class HttpService {
   socket: SocketIOClient.Socket;
 
   constructor(private _http: HttpClient) {
-    // this.socket = io.connect('http://192.168.0.108:8888');
-    this.socket = io.connect('http://localhost:8888');
-    // this.socket = io.connect('http://192.168.0.125:8888');
+    this.socket = io.connect('http://10.0.0.74:8888');
     // this.socket = io.connect('http://localhost:8888');
   }
 

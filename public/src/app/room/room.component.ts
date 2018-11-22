@@ -31,6 +31,7 @@ export class RoomComponent implements OnInit {
     this.searchResults = [];
     this._route.params.subscribe((params: Params) => {
       this.roomID = params['room_id'];
+      this.userID = params['user_id'];
     });
     this.users = [];
 
@@ -43,9 +44,11 @@ export class RoomComponent implements OnInit {
     });
 
     this.socket.on('song_queue', data => {
-      this.queue = data;
+      this.queue = data.queue;
       console.log(this.queue)
-      if (!this.currentSong) {
+      console.log("Host ID:", data.host_id);
+      console.log("User ID:", this.userID)
+      if (!this.currentSong && data.host_id == this.userID) {
         this.playSong();
       }
     });
@@ -77,7 +80,14 @@ export class RoomComponent implements OnInit {
   upvote(song: any, el: HTMLInputElement): void {
     el.disabled = true;
     console.log('Upvoting song: ' + song.info.name);
-    this.socket.emit('upvote', song);
+    this.socket.emit('upvote', {song: song, user_id: this.userID});
+  }
+
+  checkVoted(song: any) {
+    if (song.users_voted[this.userID]) {
+      return true;
+    }
+    return false;
   }
 
   playSong(): void {
@@ -90,13 +100,13 @@ export class RoomComponent implements OnInit {
         var el: HTMLElement = document.getElementById('progress');
         let width = 1;
         let currTime = 100;
-        var id = setInterval(frame, 1000);
+        var id = setInterval(frame, 500);
         function frame() {
           if (width >= 100) {
             clearInterval(id);
           } else {
-            currTime += 1000; 
-            width = (currTime / duration) * 100;
+            currTime += 500; 
+            width = (currTime / (duration + 1000)) * 100;
             el.setAttribute('style', 'width:' + width + '%;');
           }
         }
